@@ -7,6 +7,7 @@ public class UIManager : MonoBehaviour
     public GameObject panelAjustes;
     public GameObject panelRanking;
     public GameObject panelPausa;
+    public GameObject panelShop;
 
     // --- CONTROL DE PANELES ---
     public void OpenSettings() => panelAjustes.SetActive(true);
@@ -14,6 +15,9 @@ public class UIManager : MonoBehaviour
 
     public void OpenRanking() => panelRanking.SetActive(true);
     public void CloseRanking() => panelRanking.SetActive(false);
+
+    public void OpenShop() => panelShop.SetActive(true);
+    public void CloseShop() => panelShop.SetActive(false);
 
     // --- SISTEMA DE PAUSA ---
     public void TogglePauseMenu()
