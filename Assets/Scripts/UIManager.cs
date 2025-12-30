@@ -31,7 +31,12 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    // Función para llamar al Singleton desde los botones
     public void LoadMainMenu() => ScenesManager.Instance.ChangeScene("MainMenu");
     public void LoadGame() => ScenesManager.Instance.ChangeScene("Game");
+
+    public void ExitGame() 
+    {
+        Application.Quit();
+        Debug.Log("Cerrando app");
+    }
 }
