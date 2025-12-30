@@ -1,4 +1,6 @@
+using System.Collections;
 using UnityEngine;
+using UnityEngine.Localization.Settings;
 using UnityEngine.SceneManagement;
 
 public class ScenesManager : MonoBehaviour
@@ -74,5 +76,16 @@ public class ScenesManager : MonoBehaviour
     {
         Time.timeScale = 1; // Siempre resetear el tiempo al cambiar
         SceneManager.LoadScene(nombre);
+    }
+
+    public void ChangeLanguage(int indice)
+    {
+        StartCoroutine(SetLocale(indice));
+    }
+
+    private IEnumerator SetLocale(int _localeID)
+    {
+        yield return LocalizationSettings.InitializationOperation;
+        LocalizationSettings.SelectedLocale = LocalizationSettings.AvailableLocales.Locales[_localeID];
     }
 }
