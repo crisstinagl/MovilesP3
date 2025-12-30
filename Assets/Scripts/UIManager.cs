@@ -27,6 +27,7 @@ public class UIManager : MonoBehaviour
             bool pausado = !panelPausa.activeSelf;
             panelPausa.SetActive(pausado);
             Time.timeScale = pausado ? 0 : 1;
+            ScenesManager.Instance.musicaSource.volume = pausado ? 0.2f : 1.0f;
         }
     }
 
