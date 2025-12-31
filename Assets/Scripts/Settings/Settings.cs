@@ -8,16 +8,19 @@ public class Settings : MonoBehaviour
     public Slider volSlider;
     public Slider brightnessSlider;
     public Toggle dyslexiaToggle;
+    public TMPro.TMP_Dropdown colorblindDropdown;
 
     void Start()
     {
         volSlider.value = ScenesManager.Instance.actualVol;
         brightnessSlider.value = ScenesManager.Instance.actualBrightness;
         dyslexiaToggle.isOn = ScenesManager.Instance.isDyslexicMode;
+        colorblindDropdown.value = ScenesManager.Instance.actualColorFilter;
 
         volSlider.onValueChanged.AddListener(delegate { NotifyChange(); });
         brightnessSlider.onValueChanged.AddListener(delegate { NotifyChange(); });
         dyslexiaToggle.onValueChanged.AddListener(delegate { NotifyChange(); });
+        colorblindDropdown.onValueChanged.AddListener(delegate { NotifyChange(); });
 
         ScenesManager.Instance.ApplyChanges();
     }
@@ -27,7 +30,8 @@ public class Settings : MonoBehaviour
         ScenesManager.Instance.UpdateValues(
             volSlider.value, 
             brightnessSlider.value,
-            dyslexiaToggle.isOn
+            dyslexiaToggle.isOn,
+            colorblindDropdown.value
         );
     }
 }

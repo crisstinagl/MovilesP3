@@ -71,6 +71,34 @@ MonoBehaviour:
     m_Key: txt_cocina
     m_Metadata:
       m_Items: []
+  - m_Id: 303230278492160
+    m_Key: txt_idioma
+    m_Metadata:
+      m_Items: []
+  - m_Id: 303247890374656
+    m_Key: txt_daltonismo
+    m_Metadata:
+      m_Items: []
+  - m_Id: 303276638134272
+    m_Key: txt_dislexicos
+    m_Metadata:
+      m_Items: []
+  - m_Id: 305753546612736
+    m_Key: txt_ninguno
+    m_Metadata:
+      m_Items: []
+  - m_Id: 305773096263680
+    m_Key: txt_protanopia
+    m_Metadata:
+      m_Items: []
+  - m_Id: 305797913960448
+    m_Key: txt_deuteranopia
+    m_Metadata:
+      m_Items: []
+  - m_Id: 305821418840064
+    m_Key: txt_tritanopia
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

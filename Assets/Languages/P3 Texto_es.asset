@@ -74,6 +74,34 @@ MonoBehaviour:
     m_Localized: "Sal\xF3n"
     m_Metadata:
       m_Items: []
+  - m_Id: 303230278492160
+    m_Localized: 'Idioma:'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 303247890374656
+    m_Localized: "Modo dalt\xF3nicos:"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 303276638134272
+    m_Localized: "Modo disl\xE9xicos"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 305753546612736
+    m_Localized: Ninguno
+    m_Metadata:
+      m_Items: []
+  - m_Id: 305773096263680
+    m_Localized: "Protanop\xEDa"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 305797913960448
+    m_Localized: "Deuteranop\xEDa"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 305821418840064
+    m_Localized: "Tritanop\xEDa"
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

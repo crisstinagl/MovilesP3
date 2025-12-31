@@ -13,6 +13,9 @@ public class ScenesManager : MonoBehaviour
     [Header("Ajustes de Audio")]
     public AudioSource musicaSource;
 
+    [Header("Daltonismo")]
+    public int actualColorFilter; // 0: Normal, 1: Protan, 2: Deutan, 3: Tritan
+
     [System.Serializable]
     public struct AccesibilityFont
     {
@@ -30,6 +33,25 @@ public class ScenesManager : MonoBehaviour
     [HideInInspector] public float actualBrightness;
     [HideInInspector] public bool isDyslexicMode;
 
+    void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (fontsMemory != null)
+        {
+            fontsMemory.Clear();
+        }
+        ApplyChanges();
+    }
+
     void Awake()
     {
         if (Instance == null)
@@ -43,14 +65,18 @@ public class ScenesManager : MonoBehaviour
             LoadSettings();
             PlayMusic();
         }
-        else { Destroy(gameObject); }
+        else 
+        { 
+            Destroy(gameObject);
+            return;
+        }
     }
 
     // FUNCIONES PARA LA GESTION DE LA FUENTE PARA DISLEXICOS
     public void ApplyDislexicFont(bool activate)
     {
         activeDyslexicMode = activate;
-        PlayerPrefs.SetInt("AccesibilidadDislexia", activate ? 1 : 0);
+        PlayerPrefs.SetInt("Dislexia", activate ? 1 : 0);
 
         TMP_Text[] textos = Resources.FindObjectsOfTypeAll<TMP_Text>();
 
@@ -100,19 +126,22 @@ public class ScenesManager : MonoBehaviour
         actualVol = PlayerPrefs.GetFloat("Volumen", 0.5f);
         actualBrightness = PlayerPrefs.GetFloat("Brillo", 1.0f);
         isDyslexicMode = PlayerPrefs.GetInt("Dislexia", 0) == 1;
+        actualColorFilter = PlayerPrefs.GetInt("Daltonismo", 0);
 
         ApplyChanges();
     }
 
-    public void UpdateValues(float vol, float bright, bool dyslexic)
+    public void UpdateValues(float vol, float bright, bool dyslexic, int colorIndex)
     {
         actualVol = vol;
         actualBrightness = bright;
         isDyslexicMode = dyslexic;
+        actualColorFilter = colorIndex;
 
         PlayerPrefs.SetFloat("Volumen", vol);
         PlayerPrefs.SetFloat("Brillo", bright);
         PlayerPrefs.SetInt("Dislexia", dyslexic ? 1 : 0);
+        PlayerPrefs.SetInt("Daltonismo", colorIndex);
         PlayerPrefs.Save();
 
         ApplyChanges();
@@ -134,7 +163,7 @@ public class ScenesManager : MonoBehaviour
         }
 
         // Fuente dislexia
-        TMP_Text[] allTexts = Resources.FindObjectsOfTypeAll<TMP_Text>();
+        TMP_Text[] allTexts = GameObject.FindObjectsByType<TMP_Text>(FindObjectsInactive.Include, FindObjectsSortMode.None);
         foreach (var text in allTexts)
         {
             if (text == null || text.gameObject.hideFlags == HideFlags.NotEditable || text.gameObject.hideFlags == HideFlags.HideAndDontSave)
@@ -164,6 +193,28 @@ public class ScenesManager : MonoBehaviour
                 }
             }
             text.SetAllDirty();
+        }
+
+        // Daltonismo
+        GameObject filtroGO = GameObject.FindWithTag("FiltroColor");
+        if (filtroGO != null)
+        {
+            var img = filtroGO.GetComponent<UnityEngine.UI.Image>();
+            switch (actualColorFilter)
+            {
+                case 0: // Normal
+                    img.color = new Color(0, 0, 0, 0); // Invisible
+                    break;
+                case 1: // Protanopia (Rojo) - Aplicamos un filtro cian/azulado
+                    img.color = new Color(0, 0.4f, 0.7f, 0.15f);
+                    break;
+                case 2: // Deuteranopia (Verde) - Aplicamos un filtro rosado/magenta
+                    img.color = new Color(0.7f, 0, 0.7f, 0.15f);
+                    break;
+                case 3: // Tritanopia (Azul) - Aplicamos un filtro amarillento
+                    img.color = new Color(0.7f, 0.7f, 0, 0.15f);
+                    break;
+            }
         }
     }
 

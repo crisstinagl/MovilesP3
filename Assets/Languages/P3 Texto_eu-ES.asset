@@ -74,6 +74,34 @@ MonoBehaviour:
     m_Localized: Sukaldea
     m_Metadata:
       m_Items: []
+  - m_Id: 303276638134272
+    m_Localized: "Mode disl\xE8xics"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 303247890374656
+    m_Localized: "Mode dalt\xF2nics:"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 303230278492160
+    m_Localized: 'Idioma:'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 305773096263680
+    m_Localized: Protanopia
+    m_Metadata:
+      m_Items: []
+  - m_Id: 305797913960448
+    m_Localized: Deuteranopia
+    m_Metadata:
+      m_Items: []
+  - m_Id: 305821418840064
+    m_Localized: Tritanopia
+    m_Metadata:
+      m_Items: []
+  - m_Id: 305753546612736
+    m_Localized: "Ning\xFA"
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []
