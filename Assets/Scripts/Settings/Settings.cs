@@ -1,24 +1,26 @@
 using UnityEngine;
 using UnityEngine.UI;
 
+// Clase para gestionar los ajustes
 public class Seetings : MonoBehaviour
 {
-    public Slider sliderVolumen;
-    public Slider sliderBrillo;
+    [Header("Referencias")]
+    public Slider volSlider;
+    public Slider brightnessSlider;
 
     void Start()
     {
-        sliderVolumen.value = ScenesManager.Instance.volumenActual;
-        sliderBrillo.value = ScenesManager.Instance.brilloActual;
+        volSlider.value = ScenesManager.Instance.actualVol;
+        brightnessSlider.value = ScenesManager.Instance.actualBrightness;
 
-        sliderVolumen.onValueChanged.AddListener(delegate { NotificarCambio(); });
-        sliderBrillo.onValueChanged.AddListener(delegate { NotificarCambio(); });
+        volSlider.onValueChanged.AddListener(delegate { NotifyChange(); });
+        brightnessSlider.onValueChanged.AddListener(delegate { NotifyChange(); });
 
         ScenesManager.Instance.ApplyChanges();
     }
 
-    public void NotificarCambio()
+    public void NotifyChange()
     {
-        ScenesManager.Instance.UpdateValues(sliderVolumen.value, sliderBrillo.value);
+        ScenesManager.Instance.UpdateValues(volSlider.value, brightnessSlider.value);
     }
 }

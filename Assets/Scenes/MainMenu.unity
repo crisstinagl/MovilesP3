@@ -1814,8 +1814,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   musicaSource: {fileID: 785035387}
-  volumenActual: 0
-  brilloActual: 0
+  actualVol: 0
+  actualBrightness: 0
 --- !u!82 &785035387
 AudioSource:
   m_ObjectHideFlags: 0
@@ -3430,8 +3430,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d3fc3836a5e0c0428e5f91c457c4e50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sliderVolumen: {fileID: 1830467757}
-  sliderBrillo: {fileID: 960810669}
+  volSlider: {fileID: 1830467757}
+  brightnessSlider: {fileID: 960810669}
 --- !u!1 &1257580091
 GameObject:
   m_ObjectHideFlags: 0
@@ -3718,9 +3718,9 @@ RectTransform:
   - {fileID: 1058966348}
   m_Father: {fileID: 1394780438}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 1, y: 1}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -113.25, y: -105.248}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 113.25, y: -105.248}
   m_SizeDelta: {x: 226.5, y: 210.496}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1369344896

@@ -3,8 +3,10 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Localization.Settings;
 
+// Clase para gestionar el cambio de idioma
 public class Language : MonoBehaviour
 {
+    // Referencia
     public TMP_Dropdown dropdown;
 
     void OnEnable()
