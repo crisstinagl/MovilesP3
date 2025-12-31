@@ -13,6 +13,10 @@ public class ScenesManager : MonoBehaviour
     [Header("Ajustes de Audio")]
     public AudioSource musicaSource;
 
+    [Header("Sonidos UI")]
+    public AudioSource uiSource;
+    public AudioClip sonidoClick;
+
     [Header("Daltonismo")]
     public int actualColorFilter; // 0: Normal, 1: Protan, 2: Deutan, 3: Tritan
 
@@ -109,7 +113,7 @@ public class ScenesManager : MonoBehaviour
         }
     }
 
-    // Funcion para reproducir la musica
+    // FUNCIONES PARA REPRODUCIR LA MUSICA Y LOS EFECTOS DE SONIDO
     private void PlayMusic()
     {
         if (musicaSource != null && !musicaSource.isPlaying)
@@ -117,6 +121,14 @@ public class ScenesManager : MonoBehaviour
             musicaSource.loop = true; // Asegurar que sea en bucle
             musicaSource.playOnAwake = true;
             musicaSource.Play();
+        }
+    }
+
+    public void PlayClickSound()
+    {
+        if (uiSource != null && sonidoClick != null)
+        {
+            uiSource.PlayOneShot(sonidoClick);
         }
     }
 
@@ -205,13 +217,13 @@ public class ScenesManager : MonoBehaviour
                 case 0: // Normal
                     img.color = new Color(0, 0, 0, 0); // Invisible
                     break;
-                case 1: // Protanopia (Rojo) - Aplicamos un filtro cian/azulado
+                case 1: // Protanopia (Rojo) - Filtro cian/azulado
                     img.color = new Color(0, 0.4f, 0.7f, 0.15f);
                     break;
-                case 2: // Deuteranopia (Verde) - Aplicamos un filtro rosado/magenta
+                case 2: // Deuteranopia (Verde) - Filtro rosado/magenta
                     img.color = new Color(0.7f, 0, 0.7f, 0.15f);
                     break;
-                case 3: // Tritanopia (Azul) - Aplicamos un filtro amarillento
+                case 3: // Tritanopia (Azul) - Filtro amarillo
                     img.color = new Color(0.7f, 0.7f, 0, 0.15f);
                     break;
             }

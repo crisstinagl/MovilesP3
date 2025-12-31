@@ -23,6 +23,12 @@ public class Settings : MonoBehaviour
         colorblindDropdown.onValueChanged.AddListener(delegate { NotifyChange(); });
 
         ScenesManager.Instance.ApplyChanges();
+
+        Button[] allButtons = Resources.FindObjectsOfTypeAll<Button>();
+        foreach (Button btn in allButtons)
+        {
+            btn.onClick.AddListener(() => ScenesManager.Instance.PlayClickSound());
+        }
     }
 
     public void NotifyChange()
