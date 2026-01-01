@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: a0d1369b02497bb41b1a1031e7ad50be
+guid: 6ced0fc885c8f5a46af43b82372fe3bf
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 3753221308039373078
-    second: croquetasDoradas_0
+      213: -7069382206959583281
+    second: vecteezy_pink-gradient-circle-gradient-circle-button_10984284_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -46,7 +46,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -100,19 +100,6 @@ TextureImporter:
     buildTarget: Android
     maxTextureSize: 2048
     resizeAlgorithm: 0
-    textureFormat: 47
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 1
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: iOS
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
     compressionQuality: 50
@@ -139,13 +126,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: croquetasDoradas_0
+      name: vecteezy_pink-gradient-circle-gradient-circle-button_10984284_0
       rect:
         serializedVersion: 2
-        x: 34
-        y: 17
-        width: 251
-        height: 272
+        x: 1
+        y: 1
+        width: 2535
+        height: 2533
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -154,8 +141,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 6112d1de4ee161430800000000000000
-      internalID: 3753221308039373078
+      spriteID: fcff4b4865284ed90800000000000000
+      internalID: -7069382206959583281
       vertices: []
       indices: 
       edges: []
@@ -164,7 +151,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -174,7 +161,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      croquetasDoradas_0: 3753221308039373078
+      vecteezy_pink-gradient-circle-gradient-circle-button_10984284_0: -7069382206959583281
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

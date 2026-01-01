@@ -5,248 +5,198 @@ using UnityEngine;
 using UnityEngine.Localization.Settings;
 using UnityEngine.SceneManagement;
 
-// Clase para gestionar la navegacion entre las escenas y el flujo del juego
 public class ScenesManager : MonoBehaviour
 {
-    public static ScenesManager Instance;
+	public static ScenesManager Instance;
 
-    [Header("Ajustes de Audio")]
-    public AudioSource musicaSource;
+	[Header("Ajustes de Audio")]
+	public AudioSource musicaSource;
 
-    [Header("Sonidos UI")]
-    public AudioSource uiSource;
-    public AudioClip sonidoClick;
+	[Header("Sonidos UI")]
+	public AudioSource uiSource;
+	public AudioClip sonidoClick;
 
-    [Header("Daltonismo")]
-    public int actualColorFilter; // 0: Normal, 1: Protan, 2: Deutan, 3: Tritan
+	[Header("Daltonismo")]
+	public int actualColorFilter;
 
-    [System.Serializable]
-    public struct AccesibilityFont
-    {
-        public TMP_FontAsset originalFont;
-        public TMP_FontAsset dyslexicFont;
-    };
+	[System.Serializable]
+	public struct AccesibilityFont
+	{
+		public TMP_FontAsset originalFont;
+		public TMP_FontAsset dyslexicFont;
+	};
 
-    [Header("Mapeo de Fuentes")]
-    public List<AccesibilityFont> fontCatalog;
-    private Dictionary<TMP_Text, TMP_FontAsset> fontsMemory = new Dictionary<TMP_Text, TMP_FontAsset>();
+	[Header("Mapeo de Fuentes")]
+	public List<AccesibilityFont> fontCatalog;
+	private Dictionary<TMP_Text, TMP_FontAsset> fontsMemory = new Dictionary<TMP_Text, TMP_FontAsset>();
 
-    private bool activeDyslexicMode = false;
+	private bool activeDyslexicMode = false;
 
-    [HideInInspector] public float actualVol;
-    [HideInInspector] public float actualBrightness;
-    [HideInInspector] public bool isDyslexicMode;
+	[HideInInspector] public float actualVol;
+	[HideInInspector] public float actualBrightness;
+	[HideInInspector] public bool isDyslexicMode;
 
-    void OnEnable()
-    {
-        SceneManager.sceneLoaded += OnSceneLoaded;
-    }
+	[Header("Economía")]
+	public int monedas;
 
-    void OnDisable()
-    {
-        SceneManager.sceneLoaded -= OnSceneLoaded;
-    }
+	void Awake()
+	{
+		if (Instance == null)
+		{
+			Instance = this;
+			DontDestroyOnLoad(gameObject);
+			LoadSettings();
+		}
+		else
+		{
+			Destroy(gameObject);
+		}
+	}
 
-    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
-        if (fontsMemory != null)
-        {
-            fontsMemory.Clear();
-        }
-        ApplyChanges();
-    }
+	void OnEnable()
+	{
+		SceneManager.sceneLoaded += OnSceneLoaded;
+	}
 
-    void Awake()
-    {
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
+	void OnDisable()
+	{
+		SceneManager.sceneLoaded -= OnSceneLoaded;
+	}
 
-            if (musicaSource == null)
-                musicaSource = GetComponent<AudioSource>();
+	void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+	{
+		ApplyChanges();
+	}
 
-            LoadSettings();
-            PlayMusic();
-        }
-        else 
-        { 
-            Destroy(gameObject);
-            return;
-        }
-    }
+	public void UpdateValues(float vol, float bright, bool dyslexic, int colorFilter)
+	{
+		actualVol = vol;
+		actualBrightness = bright;
+		isDyslexicMode = dyslexic;
+		actualColorFilter = colorFilter;
 
-    // FUNCIONES PARA LA GESTION DE LA FUENTE PARA DISLEXICOS
-    public void ApplyDislexicFont(bool activate)
-    {
-        activeDyslexicMode = activate;
-        PlayerPrefs.SetInt("Dislexia", activate ? 1 : 0);
+		SaveSettings();
+		ApplyChanges();
+	}
 
-        TMP_Text[] textos = Resources.FindObjectsOfTypeAll<TMP_Text>();
+	private void SaveSettings()
+	{
+		PlayerPrefs.SetFloat("Volumen", actualVol);
+		PlayerPrefs.SetFloat("Brillo", actualBrightness);
+		PlayerPrefs.SetInt("Dislexia", isDyslexicMode ? 1 : 0);
+		PlayerPrefs.SetInt("Daltonismo", actualColorFilter);
+		PlayerPrefs.SetInt("Monedas", monedas);
+		PlayerPrefs.Save();
+	}
 
-        foreach (var txt in textos)
-        {
-            UpdateText(txt);
-        }
-    }
+	private void LoadSettings()
+	{
+		actualVol = PlayerPrefs.GetFloat("Volumen", 1f);
+		actualBrightness = PlayerPrefs.GetFloat("Brillo", 1f);
+		isDyslexicMode = PlayerPrefs.GetInt("Dislexia", 0) == 1;
+		actualColorFilter = PlayerPrefs.GetInt("Daltonismo", 0);
+		monedas = PlayerPrefs.GetInt("Monedas", 100);
+	}
 
-    public void UpdateText(TMP_Text text)
-    {
-        foreach (var par in fontCatalog)
-        {
-            if (activeDyslexicMode)
-            {
-                if (text.font == par.originalFont)
-                {
-                    text.font = par.dyslexicFont;
-                    break;
-                }
-            }
-            else
-            {
-                if (text.font == par.dyslexicFont)
-                {
-                    text.font = par.originalFont;
-                    break;
-                }
-            }
-        }
-    }
+	public void ApplyChanges()
+	{
+		if (musicaSource != null) musicaSource.volume = actualVol;
 
-    // FUNCIONES PARA REPRODUCIR LA MUSICA Y LOS EFECTOS DE SONIDO
-    private void PlayMusic()
-    {
-        if (musicaSource != null && !musicaSource.isPlaying)
-        {
-            musicaSource.loop = true; // Asegurar que sea en bucle
-            musicaSource.playOnAwake = true;
-            musicaSource.Play();
-        }
-    }
+		activeDyslexicMode = isDyslexicMode;
+		TMP_Text[] allTexts = GameObject.FindObjectsByType<TMP_Text>(FindObjectsSortMode.None);
 
-    public void PlayClickSound()
-    {
-        if (uiSource != null && sonidoClick != null)
-        {
-            uiSource.PlayOneShot(sonidoClick);
-        }
-    }
+		foreach (TMP_Text txt in allTexts)
+		{
+			if (!fontsMemory.ContainsKey(txt))
+			{
+				fontsMemory.Add(txt, txt.font);
+			}
 
-    // FUNCIONES PARA CARGAR Y APLICAR LOS AJUSTES
-    private void LoadSettings()
-    {
-        actualVol = PlayerPrefs.GetFloat("Volumen", 0.5f);
-        actualBrightness = PlayerPrefs.GetFloat("Brillo", 1.0f);
-        isDyslexicMode = PlayerPrefs.GetInt("Dislexia", 0) == 1;
-        actualColorFilter = PlayerPrefs.GetInt("Daltonismo", 0);
+			TMP_FontAsset fontToApply = fontsMemory[txt];
 
-        ApplyChanges();
-    }
+			if (activeDyslexicMode)
+			{
+				foreach (var item in fontCatalog)
+				{
+					if (item.originalFont == fontToApply)
+					{
+						fontToApply = item.dyslexicFont;
+						break;
+					}
+				}
+			}
+			txt.font = fontToApply;
+		}
 
-    public void UpdateValues(float vol, float bright, bool dyslexic, int colorIndex)
-    {
-        actualVol = vol;
-        actualBrightness = bright;
-        isDyslexicMode = dyslexic;
-        actualColorFilter = colorIndex;
+		GameObject brilloGO = GameObject.FindWithTag("BrilloOverlay");
+		if (brilloGO != null)
+		{
+			var img = brilloGO.GetComponent<UnityEngine.UI.Image>();
+			img.color = new Color(0, 0, 0, 1f - actualBrightness);
+		}
 
-        PlayerPrefs.SetFloat("Volumen", vol);
-        PlayerPrefs.SetFloat("Brillo", bright);
-        PlayerPrefs.SetInt("Dislexia", dyslexic ? 1 : 0);
-        PlayerPrefs.SetInt("Daltonismo", colorIndex);
-        PlayerPrefs.Save();
+		GameObject filtroGO = GameObject.FindWithTag("FiltroColor");
+		if (filtroGO != null)
+		{
+			var img = filtroGO.GetComponent<UnityEngine.UI.Image>();
+			switch (actualColorFilter)
+			{
+				case 0:
+					img.color = new Color(0, 0, 0, 0);
+					break;
+				case 1:
+					img.color = new Color(0, 0.4f, 0.7f, 0.15f);
+					break;
+				case 2:
+					img.color = new Color(0.7f, 0, 0.7f, 0.15f);
+					break;
+				case 3:
+					img.color = new Color(0.7f, 0.7f, 0, 0.15f);
+					break;
+			}
+		}
+	}
 
-        ApplyChanges();
-    }
+	public void ChangeScene(string nombre)
+	{
+		fontsMemory.Clear();
+		Time.timeScale = 1;
+		SceneManager.LoadScene(nombre);
+	}
 
-    public void ApplyChanges()
-    {
-        // Volumen
-        AudioListener.volume = actualVol;
+	public void ChangeLanguage(int indice)
+	{
+		StartCoroutine(SetLocale(indice));
+	}
 
-        // Brillo
-        GameObject overlay = GameObject.FindWithTag("BrilloOverlay");
-        if (overlay != null)
-        {
-            var img = overlay.GetComponent<UnityEngine.UI.Image>();
-            Color c = img.color;
-            c.a = Mathf.Clamp(1.0f - actualBrightness, 0f, 0.8f);
-            img.color = c;
-        }
+	IEnumerator SetLocale(int _localeID)
+	{
+		yield return LocalizationSettings.InitializationOperation;
+		LocalizationSettings.SelectedLocale = LocalizationSettings.AvailableLocales.Locales[_localeID];
+	}
 
-        // Fuente dislexia
-        TMP_Text[] allTexts = GameObject.FindObjectsByType<TMP_Text>(FindObjectsInactive.Include, FindObjectsSortMode.None);
-        foreach (var text in allTexts)
-        {
-            if (text == null || text.gameObject.hideFlags == HideFlags.NotEditable || text.gameObject.hideFlags == HideFlags.HideAndDontSave)
-                continue;
+	public void PlayClickSound()
+	{
+		if (uiSource != null && sonidoClick != null)
+		{
+			uiSource.PlayOneShot(sonidoClick);
+		}
+	}
 
-            if (!fontsMemory.ContainsKey(text))
-            {
-                fontsMemory.Add(text, text.font);
-            }
+	public bool TrySpendCoins(int amount)
+	{
+		if (monedas >= amount)
+		{
+			monedas -= amount;
+			SaveSettings();
+			return true;
+		}
+		return false;
+	}
 
-            TMP_FontAsset originalTextFont = fontsMemory[text];
-
-            foreach (var mapping in fontCatalog)
-            {
-                if (isDyslexicMode)
-                {
-                    if (originalTextFont == mapping.originalFont)
-                    {
-                        text.font = mapping.dyslexicFont;
-                        break;
-                    }
-                }
-                else
-                {
-                    text.font = originalTextFont;
-                    break;
-                }
-            }
-            text.SetAllDirty();
-        }
-
-        // Daltonismo
-        GameObject filtroGO = GameObject.FindWithTag("FiltroColor");
-        if (filtroGO != null)
-        {
-            var img = filtroGO.GetComponent<UnityEngine.UI.Image>();
-            switch (actualColorFilter)
-            {
-                case 0: // Normal
-                    img.color = new Color(0, 0, 0, 0); // Invisible
-                    break;
-                case 1: // Protanopia (Rojo) - Filtro cian/azulado
-                    img.color = new Color(0, 0.4f, 0.7f, 0.15f);
-                    break;
-                case 2: // Deuteranopia (Verde) - Filtro rosado/magenta
-                    img.color = new Color(0.7f, 0, 0.7f, 0.15f);
-                    break;
-                case 3: // Tritanopia (Azul) - Filtro amarillo
-                    img.color = new Color(0.7f, 0.7f, 0, 0.15f);
-                    break;
-            }
-        }
-    }
-
-    // Funcion para cambiar de escena
-    public void ChangeScene(string nombre)
-    {
-        fontsMemory.Clear();
-        Time.timeScale = 1; // Siempre resetear el tiempo al cambiar
-        SceneManager.LoadScene(nombre);
-    }
-
-    // FUNCIONES PARA CAMBIAR EL IDIOMA
-    public void ChangeLanguage(int indice)
-    {
-        StartCoroutine(SetLocale(indice));
-    }
-
-    private IEnumerator SetLocale(int _localeID)
-    {
-        yield return LocalizationSettings.InitializationOperation;
-        LocalizationSettings.SelectedLocale = LocalizationSettings.AvailableLocales.Locales[_localeID];
-    }
+	public void AddCoins(int amount)
+	{
+		monedas += amount;
+		SaveSettings();
+	}
 }
