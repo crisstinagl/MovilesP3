@@ -23,6 +23,8 @@ public class Settings : MonoBehaviour
         dyslexiaToggle.onValueChanged.AddListener(delegate { NotifyChange(); });
         colorblindDropdown.onValueChanged.AddListener(delegate { NotifyChange(); });
 
+        ScenesManager.Instance.ApplyChanges();
+
         Button[] allButtons = Resources.FindObjectsOfTypeAll<Button>();
         foreach (Button btn in allButtons)
         {
