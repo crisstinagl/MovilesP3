@@ -99,6 +99,22 @@ MonoBehaviour:
     m_Key: txt_tritanopia
     m_Metadata:
       m_Items: []
+  - m_Id: 1072152178204672
+    m_Key: btn_comprar
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1072154036281344
+    m_Key: btn_equipada
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1072155483316224
+    m_Key: btn_equipar
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1077204825546752
+    m_Key: txt_dineroInsuficiente
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

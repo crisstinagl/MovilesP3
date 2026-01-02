@@ -79,11 +79,11 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 303247890374656
-    m_Localized: "Modalit\xE0 daltonico:"
+    m_Localized: 'Filtro per daltonici:'
     m_Metadata:
       m_Items: []
   - m_Id: 303276638134272
-    m_Localized: "Modalit\xE0 dislessico"
+    m_Localized: Fonte OpenDyslexic
     m_Metadata:
       m_Items: []
   - m_Id: 305821418840064
@@ -100,6 +100,22 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 305753546612736
     m_Localized: Nessuno
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1072152178204672
+    m_Localized: Comprare
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1072155483316224
+    m_Localized: Equipaggiare
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1072154036281344
+    m_Localized: Equipaggiato
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1077204825546752
+    m_Localized: Soldi insufficienti!
     m_Metadata:
       m_Items: []
   references:

@@ -30,8 +30,15 @@ public class UIManager : MonoBehaviour
 		}
 	}
 
-	public void LoadMainMenu() => ScenesManager.Instance.ChangeScene("MainMenu");
-	public void LoadGame() => ScenesManager.Instance.ChangeScene("Game");
+	public void LoadMainMenu()
+	{
+		 ScenesManager.Instance.ChangeScene("MainMenu");
+    }
+
+    public void LoadGame()
+	{
+		 ScenesManager.Instance.ChangeScene("Game");
+	}
 
 	public void ExitGame()
 	{

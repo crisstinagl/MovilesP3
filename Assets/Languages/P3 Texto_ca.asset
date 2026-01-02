@@ -79,11 +79,11 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 303247890374656
-    m_Localized: 'Daltonismo modua:'
+    m_Localized: "Filtre per a dalt\xF2nics:"
     m_Metadata:
       m_Items: []
   - m_Id: 303276638134272
-    m_Localized: Dislexiko modua
+    m_Localized: Font OpenDyslexic
     m_Metadata:
       m_Items: []
   - m_Id: 305753546612736
@@ -100,6 +100,22 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 305821418840064
     m_Localized: Tritanopia
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1072152178204672
+    m_Localized: Comprar
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1072154036281344
+    m_Localized: Equipada
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1072155483316224
+    m_Localized: Equipar
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1077204825546752
+    m_Localized: Fons insuficients!
     m_Metadata:
       m_Items: []
   references:

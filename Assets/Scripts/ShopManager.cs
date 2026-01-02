@@ -1,7 +1,9 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.Localization.Settings;
 
+// Clase encargada de gestionar la tienda y las skins
 public class ShopManager : MonoBehaviour
 {
 	[System.Serializable]
@@ -22,10 +24,32 @@ public class ShopManager : MonoBehaviour
 	[Header("UI de Error")]
 	public GameObject cartelNoDinero;
 
-	void Start()
+	// Para la traduccion
+    void OnEnable()
+    {
+        LocalizationSettings.SelectedLocaleChanged += (locale) => ActualizarUI();
+        ActualizarUI(); // Actualizamos al abrir el panel
+    }
+
+    void OnDisable()
+    {
+        LocalizationSettings.SelectedLocaleChanged -= (locale) => ActualizarUI();
+    }
+
+    void Start()
 	{
 		if (cartelNoDinero != null) cartelNoDinero.SetActive(false);
-		ActualizarUI();
+        int skinGuardada = ScenesManager.Instance.skinEquipada;
+        if (skinGuardada != -1 && skinGuardada < skinsDisponibles.Length)
+        {
+            visualizadorBicho.sprite = skinsDisponibles[skinGuardada].imagenSkin;
+        }
+        else
+        {
+            visualizadorBicho.sprite = skinOriginal;
+        }
+
+        ActualizarUI();
 	}
 
 	public void ComprarSkin(int index)
@@ -71,24 +95,28 @@ public class ShopManager : MonoBehaviour
 	public void ActualizarUI()
 	{
 		if (textoMonedas != null)
-			textoMonedas.text = ScenesManager.Instance.monedas.ToString() + " Monedas";
+			textoMonedas.text = ScenesManager.Instance.monedas.ToString();
 
-		for (int i = 0; i < skinsDisponibles.Length; i++)
+		string tabla = "P3 Texto";
+
+        for (int i = 0; i < skinsDisponibles.Length; i++)
 		{
 			bool comprada = ScenesManager.Instance.skinsCompradas.Contains(i);
 			bool equipada = ScenesManager.Instance.skinEquipada == i;
 
 			if (!comprada)
 			{
-				skinsDisponibles[i].textoBoton.text = "Comprar";
-				skinsDisponibles[i].botonAccion.image.color = Color.white;
+                skinsDisponibles[i].textoBoton.text = LocalizationSettings.StringDatabase.GetLocalizedString(tabla, "btn_comprar"); skinsDisponibles[i].botonAccion.image.color = Color.white;
 			}
 			else
 			{
-				skinsDisponibles[i].textoBoton.text = equipada ? "Equipada" : "Equipar";
+                string llave = equipada ? "btn_equipada" : "btn_equipar";
+
+                skinsDisponibles[i].textoBoton.text = LocalizationSettings.StringDatabase.GetLocalizedString(tabla, llave); 
 				skinsDisponibles[i].botonAccion.image.color = equipada ? Color.gray : Color.white;
 			}
-		}
+            ScenesManager.Instance.UpdateText(skinsDisponibles[i].textoBoton);
+        }
 	}
 
 	public void MostrarError()
