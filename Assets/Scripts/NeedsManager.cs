@@ -22,6 +22,7 @@ public class NeedsManager : MonoBehaviour
         // Se calcula el valor normalizado (de 0 a 1)
         float valorNormalizado = slider.value / slider.maxValue;
         fillImage.color = gradiente.Evaluate(valorNormalizado);
+        fillImage.fillAmount = valorNormalizado;
     }
 
     // Funcion para recargar una necesidad
