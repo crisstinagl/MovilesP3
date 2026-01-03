@@ -15513,6 +15513,8 @@ MonoBehaviour:
   scrollRect: {fileID: 1948658281}
   content: {fileID: 1023233521}
   roomsNum: 4
+  bedroomScript: {fileID: 614527105}
+  indexHabitacion: 3
 --- !u!114 &1948658281
 MonoBehaviour:
   m_ObjectHideFlags: 0

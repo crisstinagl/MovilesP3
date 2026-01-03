@@ -61,4 +61,10 @@ public class BedroomManager : MonoBehaviour
             if (filtroOscuridad != null) filtroOscuridad.SetActive(false);
         }
     }
+
+    public void DespertarForzado()
+    {
+        estaDurmiendo = false;
+        ActualizarVisuales();
+    }
 }

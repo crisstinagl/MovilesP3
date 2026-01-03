@@ -9,6 +9,8 @@ public class RoomsNavigation : MonoBehaviour, IEndDragHandler, IBeginDragHandler
     public ScrollRect scrollRect;
     public RectTransform content;
     public int roomsNum = 4;
+    public BedroomManager bedroomScript;
+    public int indexHabitacion = 0;
 
     private float targetRoom;
     private bool swiping = false;
@@ -29,6 +31,13 @@ public class RoomsNavigation : MonoBehaviour, IEndDragHandler, IBeginDragHandler
         if (!swiping)
         {
             scrollRect.horizontalNormalizedPosition = Mathf.Lerp(scrollRect.horizontalNormalizedPosition, targetRoom, Time.deltaTime * 10f);
+
+            float distanciaALaHabitacion = Mathf.Abs(scrollRect.horizontalNormalizedPosition - roomsPositions[indexHabitacion]);
+
+            if (distanciaALaHabitacion > 0.1f)
+            {
+                if (bedroomScript != null) bedroomScript.DespertarForzado();
+            }
         }
     }
 
@@ -39,18 +48,34 @@ public class RoomsNavigation : MonoBehaviour, IEndDragHandler, IBeginDragHandler
         swiping = false;
         float actualPos = scrollRect.horizontalNormalizedPosition;
         float nearest = roomsPositions[0];
+        int nearestIndex = 0;
 
-        foreach (float p in roomsPositions)
+        for (int i = 0; i < roomsPositions.Length; i++)
         {
-            if (Mathf.Abs(actualPos - p) < Mathf.Abs(actualPos - nearest))
-                nearest = p;
+            if (Mathf.Abs(actualPos - roomsPositions[i]) < Mathf.Abs(actualPos - nearest))
+            {
+                nearest = roomsPositions[i];
+                nearestIndex = i;
+            }
         }
         targetRoom = nearest;
+
+        // Si se sale del dormitorio despertar
+        if (nearestIndex != indexHabitacion)
+        {
+            bedroomScript.DespertarForzado();
+        }
     }
 
     // Funcion para cambiar de sala
     public void ChangeRoom(int index)
     {
         targetRoom = roomsPositions[index];
+
+        // Si se sale del dormitorio despertar
+        if (index != indexHabitacion && bedroomScript != null)
+        {
+            bedroomScript.DespertarForzado();
+        }
     }
 }

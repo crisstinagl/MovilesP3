@@ -104,7 +104,7 @@ public class ScenesManager : MonoBehaviour
         ChangeLanguage(savedLanguage);
 
         // Tienda
-        monedas = PlayerPrefs.GetInt("Monedas", 100);
+        monedas = PlayerPrefs.GetInt("Monedas", 25);
 		skinEquipada = PlayerPrefs.GetInt("SkinEquipada", -1);
 
 		string skinsData = PlayerPrefs.GetString("SkinsPoseidas", "");
