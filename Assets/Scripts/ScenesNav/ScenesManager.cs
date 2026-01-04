@@ -64,6 +64,15 @@ public class ScenesManager : MonoBehaviour
         ApplyChanges();
     }
 
+    public void AddCoins(int amount)
+    {
+        monedas += amount;
+        SaveSettings(); // Guardamos inmediatamente
+        RefreshCoinsUI();
+    }
+
+
+
     // FUNCIONES PARA LA GESTION DE LA FUENTE PARA DISLEXICOS
     public void ApplyDislexicFont(bool activate)
     {

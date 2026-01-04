@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 225f5ba2709778b45982607185d056b4
+guid: b70c36f2f2a5df2409a71ba68c800c4e
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -2325649575781639067
-    second: mmantequilla_0
+      213: -6543225072049094477
+    second: cuchara_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -46,7 +46,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -100,17 +100,17 @@ TextureImporter:
     buildTarget: Android
     maxTextureSize: 2048
     resizeAlgorithm: 0
-    textureFormat: 47
+    textureFormat: -1
     textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
-    overridden: 1
+    overridden: 0
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 4
-    buildTarget: iOS
+    buildTarget: WebGL
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -126,13 +126,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: mmantequilla_0
+      name: cuchara_0
       rect:
         serializedVersion: 2
-        x: 3
-        y: 4
-        width: 159
-        height: 91
+        x: 7
+        y: 29
+        width: 194
+        height: 122
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -141,8 +141,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 56c5f7b5802a9bfd0800000000000000
-      internalID: -2325649575781639067
+      spriteID: 3b08517e67bc135a0800000000000000
+      internalID: -6543225072049094477
       vertices: []
       indices: 
       edges: []
@@ -151,7 +151,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -161,7 +161,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      mmantequilla_0: -2325649575781639067
+      cuchara_0: -6543225072049094477
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -40,7 +40,12 @@ public class UIManager : MonoBehaviour
 		 ScenesManager.Instance.ChangeScene("Game");
 	}
 
-	public void ExitGame()
+    public void LoadMinigame()
+    {
+        ScenesManager.Instance.ChangeScene("Minigame");
+    }
+
+    public void ExitGame()
 	{
 		Application.Quit();
 	}
