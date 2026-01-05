@@ -9,6 +9,10 @@ public class NeedsManager : MonoBehaviour
     public Image fillImage;
     public Gradient gradiente;
 
+    [Header("Sistema de Suciedad (Solo para Higiene)")]
+    [Tooltip("Arrastra aquí la imagen 'ManchasSuciedad' SOLO si este es el slider de Higiene.")]
+    public GameObject objetoSuciedad;
+
     [Header("Identificador Único")]
     [Tooltip("Escribe aquí: HigieneValue, HambreValue, etc.")]
     public string idGuardado;
@@ -21,6 +25,20 @@ public class NeedsManager : MonoBehaviour
         if (!string.IsNullOrEmpty(idGuardado) && PlayerPrefs.HasKey(idGuardado))
         {
             slider.value = PlayerPrefs.GetFloat(idGuardado);
+        }
+
+        if (objetoSuciedad != null && ScenesManager.Instance != null)
+        {
+            if (ScenesManager.Instance.isDirty)
+            {
+                slider.value = 0;
+                objetoSuciedad.SetActive(true);
+            }
+            else
+            {
+                if (slider.value <= 0) objetoSuciedad.SetActive(true);
+                else objetoSuciedad.SetActive(false);
+            }
         }
     }
     void Update()
@@ -56,6 +74,10 @@ public class NeedsManager : MonoBehaviour
     {
         // Suma la cantidad y evita que pase de 1 o baje de 0
         slider.value = Mathf.Clamp(slider.value + amount, 0f, 1f);
+        if (slider.value > 0)
+        {
+            CambiarEstadoSuciedad(false);
+        }
         GuardarDatos();
         Debug.Log("Necesidad recargada en: " + amount);
     }
@@ -65,5 +87,21 @@ public class NeedsManager : MonoBehaviour
     {
         // Resta la cantidad y evita que pase de 1 o baje de 0
         slider.value = Mathf.Clamp(slider.value - amount, 0f, 1f);
+    }
+
+    void CambiarEstadoSuciedad(bool estaSucio)
+    {
+        // Solo hacemos esto si tenemos la imagen asignada (Barra de Higiene)
+        if (objetoSuciedad != null)
+        {
+            objetoSuciedad.SetActive(estaSucio);
+
+            // Avisamos al Manager Global para que lo recuerde
+            if (ScenesManager.Instance != null)
+            {
+                ScenesManager.Instance.isDirty = estaSucio;
+                ScenesManager.Instance.SaveSettings();
+            }
+        }
     }
 }

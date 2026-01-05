@@ -6,12 +6,36 @@ public class CatSkin : MonoBehaviour
     public SpriteRenderer rendererCara;  // Arrastra aquí el objeto hijo "RenderCara"
     public SpriteRenderer rendererCuerpo; // Arrastra aquí el objeto hijo "Skin"
 
+    [Header("Configuración de Skins")]
+    public Sprite skinPorDefecto;
+    public Sprite[] listaDeSkins;
+
     [Header("Sprites Caras")]
     public Sprite caraNormal;
     public Sprite caraComiendo;
     public Sprite caraAsco;
 
-    // Función que llamará el Controller
+    void Start()
+    {
+        ActualizarSkin();
+    }
+
+    public void ActualizarSkin()
+    {
+        if (ScenesManager.Instance != null)
+        {
+            int idSkin = ScenesManager.Instance.skinEquipada;
+
+            if (idSkin == -1)
+            {
+                rendererCuerpo.sprite = skinPorDefecto;
+            }
+            else if (idSkin >= 0 && idSkin < listaDeSkins.Length)
+            {
+                rendererCuerpo.sprite = listaDeSkins[idSkin];
+            }
+        }
+    }
     public void PonerCara(string tipo)
     {
         if (tipo == "normal") rendererCara.sprite = caraNormal;

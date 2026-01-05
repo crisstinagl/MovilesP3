@@ -39,6 +39,8 @@ public class ScenesManager : MonoBehaviour
 	public List<int> skinsCompradas = new List<int>();
 	public int skinEquipada = -1;
 
+    public bool isDirty = false;
+
     void Awake()
     {
         if (Instance == null)
@@ -115,8 +117,9 @@ public class ScenesManager : MonoBehaviour
         // Tienda
         monedas = PlayerPrefs.GetInt("Monedas", 25);
 		skinEquipada = PlayerPrefs.GetInt("SkinEquipada", -1);
+        isDirty = PlayerPrefs.GetInt("EstaSucio", 0) == 1;
 
-		string skinsData = PlayerPrefs.GetString("SkinsPoseidas", "");
+        string skinsData = PlayerPrefs.GetString("SkinsPoseidas", "");
 		if (!string.IsNullOrEmpty(skinsData))
 		{
 			string[] ids = skinsData.Split(',');
@@ -143,8 +146,9 @@ public class ScenesManager : MonoBehaviour
         PlayerPrefs.SetInt("Monedas", monedas);
 		PlayerPrefs.SetInt("SkinEquipada", skinEquipada);
 		PlayerPrefs.SetString("SkinsPoseidas", string.Join(",", skinsCompradas));
+        PlayerPrefs.SetInt("EstaSucio", isDirty ? 1 : 0);
 
-		PlayerPrefs.Save();
+        PlayerPrefs.Save();
 	}
 
 	public void ApplyChanges()

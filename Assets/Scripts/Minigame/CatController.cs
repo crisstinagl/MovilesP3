@@ -109,6 +109,8 @@ public class CatController : MonoBehaviour
         if (ScenesManager.Instance != null)
         {
             ScenesManager.Instance.AddCoins(monedasGanadas);
+            ScenesManager.Instance.isDirty = true;
+            ScenesManager.Instance.SaveSettings();
         }
 
         textoResultado.text = "Puntos: " + puntos + "\n\nMonedas: " + monedasGanadas;
