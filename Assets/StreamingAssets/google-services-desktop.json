@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "378227542894",
+    "project_id": "miou-41221",
+    "storage_bucket": "miou-41221.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:378227542894:android:90d76dc81914778b920f7f",
+        "android_client_info": {
+          "package_name": "com.MangoStudio.Miou"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBnDGv8ZL_RwdqCZlAFeiiZ6QxvhGDoCB4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
