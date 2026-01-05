@@ -8190,8 +8190,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 14
-  m_fontSizeBase: 14
+  m_fontSize: 50
+  m_fontSizeBase: 50
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -9092,7 +9092,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2106294267}
-  - component: {fileID: 2106294266}
+  - component: {fileID: 2106294268}
   m_Layer: 0
   m_Name: LeaderBoardManager
   m_TagString: Untagged
@@ -9100,20 +9100,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &2106294266
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2106294265}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9f8e3c4be0609a44f8ad40b848772523, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  filaPrefab: {fileID: 1602583242683870470, guid: 71ec7b5a744f3d34f84c2503ab0cd766, type: 3}
-  contentTabla: {fileID: 270559431}
 --- !u!4 &2106294267
 Transform:
   m_ObjectHideFlags: 0
@@ -9129,6 +9115,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2106294268
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2106294265}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5cdc69f2f88668149afaaf95efd94bd4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  filaPrefab: {fileID: 1602583242683870470, guid: 71ec7b5a744f3d34f84c2503ab0cd766, type: 3}
+  contentTabla: {fileID: 270559431}
 --- !u!1 &2109353559
 GameObject:
   m_ObjectHideFlags: 0
