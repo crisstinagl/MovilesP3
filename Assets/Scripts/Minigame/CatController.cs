@@ -110,6 +110,10 @@ public class CatController : MonoBehaviour
         {
             ScenesManager.Instance.AddCoins(monedasGanadas);
             ScenesManager.Instance.isDirty = true;
+            if (LeaderboardManager.Instance != null)
+            {
+                LeaderboardManager.Instance.GuardarPuntuacion(ScenesManager.Instance.nombreJugador, puntos);
+            }
             ScenesManager.Instance.SaveSettings();
         }
 

@@ -35,7 +35,8 @@ public class ScenesManager : MonoBehaviour
 	[HideInInspector] public bool isDyslexicMode;
 
     [Header("Economía e Inventario")]
-	public int monedas;
+    public string nombreJugador = "PouPlayer";
+    public int monedas;
 	public List<int> skinsCompradas = new List<int>();
 	public int skinEquipada = -1;
 
