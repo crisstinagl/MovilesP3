@@ -39,7 +39,7 @@ public class CatController : MonoBehaviour
         transform.Translate(Vector2.right * movimiento * velocidad * Time.deltaTime);
 
         Vector3 posicion = transform.position;
-        posicion.x = Mathf.Clamp(posicion.x, -2.4f, 2.2f);
+        posicion.x = Mathf.Clamp(posicion.x, -1.8f, 1.7f);
         transform.position = posicion;
     }
 

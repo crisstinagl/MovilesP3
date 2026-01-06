@@ -26,7 +26,7 @@ public class FoodGenerator : MonoBehaviour
 
     void SpawnearObjeto()
     {
-        float randomX = Random.Range(-2.5f, 2.5f);
+        float randomX = Random.Range(-1.6f, 1.5f);
         Vector3 posicionSpawn = new Vector3(randomX, transform.position.y, 0);
 
         GameObject prefabElegido;
