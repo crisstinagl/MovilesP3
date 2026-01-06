@@ -37,7 +37,7 @@ public class LeaderboardManager : MonoBehaviour
             if (task.Result == DependencyStatus.Available)
             {
                 // Conexión exitosa
-                reference = FirebaseDatabase.DefaultInstance.RootReference;
+                reference = FirebaseDatabase.GetInstance("https://miou-41221-default-rtdb.europe-west1.firebasedatabase.app/").RootReference;
                 Debug.Log("Firebase conectado correctamente");
             }
             else
@@ -101,6 +101,7 @@ public class LeaderboardManager : MonoBehaviour
 
                     // COMO FIREBASE ORDENA DE MENOR A MAYOR, LE DAMOS LA VUELTA
                     listaScores.Reverse();
+                    int posicionRanking = 1;
 
                     // Creamos las filas visuales
                     foreach (UserScore s in listaScores)
@@ -109,11 +110,20 @@ public class LeaderboardManager : MonoBehaviour
                         // Asumimos que el prefab tiene un script o textos hijos
                         // Aquí lo hago simple buscando componentes:
                         TMP_Text[] textos = nuevaFila.GetComponentsInChildren<TMP_Text>();
-                        if (textos.Length >= 2)
+                        if (textos.Length >= 3)
                         {
-                            textos[0].text = s.name;  // Nombre
-                            textos[1].text = s.score.ToString(); // Puntos
+                            textos[0].text = "#" + posicionRanking; // Posición (ej: #1)
+                            textos[1].text = s.name;               // Nombre
+                            textos[2].text = s.score.ToString();   // Puntos
                         }
+                        // POR SI ACASO SOLO TIENES 2 TEXTOS (Para que no falle si no actualizas el prefab)
+                        else if (textos.Length >= 2)
+                        {
+                            textos[0].text = posicionRanking + ". " + s.name; // Juntamos número y nombre
+                            textos[1].text = s.score.ToString();
+                        }
+
+                        posicionRanking++;
                     }
                 }
             });

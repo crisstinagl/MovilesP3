@@ -115,6 +115,8 @@ public class ScenesManager : MonoBehaviour
         int savedLanguage = PlayerPrefs.GetInt("IdiomaIndex", 0);
         ChangeLanguage(savedLanguage);
 
+        nombreJugador = PlayerPrefs.GetString("NombreJugador", "Gatito");
+
         // Tienda
         monedas = PlayerPrefs.GetInt("Monedas", 25);
 		skinEquipada = PlayerPrefs.GetInt("SkinEquipada", -1);
@@ -142,6 +144,8 @@ public class ScenesManager : MonoBehaviour
         var locales = LocalizationSettings.AvailableLocales.Locales;
         int indiceActual = locales.IndexOf(LocalizationSettings.SelectedLocale);
         PlayerPrefs.SetInt("IdiomaIndex", indiceActual);
+
+        PlayerPrefs.SetString("NombreJugador", nombreJugador);
 
         // Tienda
         PlayerPrefs.SetInt("Monedas", monedas);

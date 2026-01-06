@@ -21,7 +21,7 @@ public class NameManager : MonoBehaviour
         if (ScenesManager.Instance != null)
         {
             ScenesManager.Instance.nombreJugador = nuevoNombre;
-            // Opcional: Guardar en disco cada vez que escribes
+
             ScenesManager.Instance.SaveSettings();
         }
     }
