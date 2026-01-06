@@ -11152,7 +11152,7 @@ MonoBehaviour:
     m_NumColorKeys: 2
     m_NumAlphaKeys: 2
   objetoSuciedad: {fileID: 0}
-  idGuardado: JuegoValue
+  idGuardado: Entretenimiento
   velocidadDescenso: 0.01
 --- !u!1 &1236842203
 GameObject:

@@ -8780,7 +8780,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: CATPUCCINO
+  m_text: MIOU
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 31238b1b85cec644491dc5e8537f04a2, type: 2}
   m_sharedMaterial: {fileID: 6819494460948259763, guid: 31238b1b85cec644491dc5e8537f04a2, type: 2}

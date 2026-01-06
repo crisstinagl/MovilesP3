@@ -11,7 +11,12 @@ public class ScenesManager : MonoBehaviour
 {
 	public static ScenesManager Instance;
 
-	[Header("Ajustes de Audio")]
+    [Header("Necesidades")]
+    public float hunger = 1.0f;
+    public float hygiene = 1.0f;
+    public float fun = 1.0f;
+
+    [Header("Ajustes de Audio")]
 	public AudioSource musicaSource;
 	public AudioSource uiSource;
 	public AudioClip sonidoClick;
@@ -130,6 +135,10 @@ public class ScenesManager : MonoBehaviour
 			foreach (var id in ids) skinsCompradas.Add(int.Parse(id));
 		}
 
+        hunger = PlayerPrefs.GetFloat("HambreValue", 1.0f);
+        hygiene = PlayerPrefs.GetFloat("HigieneValue", 1.0f);
+        fun = PlayerPrefs.GetFloat("Entretenimiento", 1.0f);
+
         ApplyChanges();
 	}
 
@@ -152,6 +161,10 @@ public class ScenesManager : MonoBehaviour
 		PlayerPrefs.SetInt("SkinEquipada", skinEquipada);
 		PlayerPrefs.SetString("SkinsPoseidas", string.Join(",", skinsCompradas));
         PlayerPrefs.SetInt("EstaSucio", isDirty ? 1 : 0);
+
+        PlayerPrefs.SetFloat("HambreValue", hunger);
+        PlayerPrefs.SetFloat("HigieneValue", hygiene);
+        PlayerPrefs.SetFloat("Entretenimiento", fun);
 
         PlayerPrefs.Save();
 	}
@@ -273,5 +286,13 @@ public class ScenesManager : MonoBehaviour
             PlayerPrefs.SetInt("IdiomaIndex", _localeID);
             PlayerPrefs.Save();
         }
+    }
+
+    public void SubirEntretenimiento(float cantidad)
+    {
+        fun += cantidad;
+        if (fun > 1.0f) fun = 1.0f;
+
+        SaveSettings();
     }
 }
