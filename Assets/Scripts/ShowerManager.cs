@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using UnityEngine.Android;
 
 public class ShowerManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IPointerUpHandler
 {
@@ -17,6 +18,10 @@ public class ShowerManager : MonoBehaviour, IPointerDownHandler, IDragHandler, I
     [Header("Ajustes de Limpieza")]
     public float cantidadPorFrotacion = 0.05f;
     public float umbralDucha = 0.5f;
+
+    [Header("Referencias de Navegación")]
+    public RoomsNavigation roomsNavigation; // Referencia al script de navegación
+    private const int SHOWER_ROOM_INDEX = 1; // Índice de la habitación de la ducha
 
     [Header("Sistema de Secado (Micrófono)")]
     [Tooltip("El audio source para reproducir y almacenar el clip del micrófono.")]
@@ -47,6 +52,11 @@ public class ShowerManager : MonoBehaviour, IPointerDownHandler, IDragHandler, I
             return;
         }
 
+        if (roomsNavigation == null)
+        {
+            Debug.LogError("La referencia a RoomsNavigation no está asignada en ShowerManager.");
+        }
+
         if (higieneManager != null)
         {
             CheckAndSwitchTool(true);
@@ -59,6 +69,11 @@ public class ShowerManager : MonoBehaviour, IPointerDownHandler, IDragHandler, I
 
     void InitializeMicrophone()
     {
+        if (!Permission.HasUserAuthorizedPermission(Permission.Microphone))
+        {
+            Permission.RequestUserPermission(Permission.Microphone);
+        }
+
         if (audioSource == null)
         {
             Debug.LogError("AudioSource no asignado en ShowerManager.");
@@ -86,7 +101,7 @@ public class ShowerManager : MonoBehaviour, IPointerDownHandler, IDragHandler, I
 
     float GetMicVolume()
     {
-        if (audioSource.clip == null) return 0f;
+        if (audioSource.clip == null || microfono == null) return 0f;
 
         float maxVolume = 0f;
         int micPosition = Microphone.GetPosition(microfono) - (SAMPLE_WINDOW + 1);
@@ -108,6 +123,8 @@ public class ShowerManager : MonoBehaviour, IPointerDownHandler, IDragHandler, I
 
     void Update()
     {
+        bool inShowerRoom = roomsNavigation != null && roomsNavigation.indexHabitacion == SHOWER_ROOM_INDEX;
+
         if (higieneManager != null)
         {
             if (higieneManager.slider.value <= 0 && higieneManager.objetoSuciedad != null)
@@ -116,7 +133,8 @@ public class ShowerManager : MonoBehaviour, IPointerDownHandler, IDragHandler, I
             }
         }
 
-        if (objetoMojado != null && objetoMojado.activeSelf)
+        // La lógica de secado solo se ejecuta si estamos en la habitación correcta
+        if (inShowerRoom && objetoMojado != null && objetoMojado.activeSelf)
         {
             float volumen = GetMicVolume();
 
@@ -146,6 +164,14 @@ public class ShowerManager : MonoBehaviour, IPointerDownHandler, IDragHandler, I
 
     public void OnPointerDown(PointerEventData eventData)
     {
+        bool inShowerRoom = roomsNavigation != null && roomsNavigation.indexHabitacion == SHOWER_ROOM_INDEX;
+
+        if (!inShowerRoom)
+        {
+            Debug.Log("Acción de ducha/esponja ignorada: no estás en la habitación de la ducha.");
+            return;
+        }
+
         if (higieneManager != null && higieneManager.slider.value < higieneManager.slider.maxValue)
         {
             estaFrotando = true;
@@ -156,6 +182,10 @@ public class ShowerManager : MonoBehaviour, IPointerDownHandler, IDragHandler, I
 
     public void OnDrag(PointerEventData eventData)
     {
+        bool inShowerRoom = roomsNavigation != null && roomsNavigation.indexHabitacion == SHOWER_ROOM_INDEX;
+
+        if (!inShowerRoom) return; // Ignorar el arrastre si no estamos en la habitación de la ducha
+
         if (estaFrotando && higieneManager != null)
         {
             higieneManager.ReloadNeed(cantidadPorFrotacion * Time.deltaTime);
@@ -189,9 +219,22 @@ public class ShowerManager : MonoBehaviour, IPointerDownHandler, IDragHandler, I
             higieneManager.GuardarDatos();
         }
     }
+
     void CheckAndSwitchTool(bool soloInicializar)
     {
         if (higieneManager == null) return;
+
+        bool inShowerRoom = roomsNavigation != null && roomsNavigation.indexHabitacion == SHOWER_ROOM_INDEX;
+
+        if (!inShowerRoom)
+        {
+            // Asegurarse de que las herramientas estén ocultas si no estamos en la habitación de la ducha
+            if (esponjaRect != null) esponjaRect.gameObject.SetActive(false);
+            if (duchaRect != null) duchaRect.gameObject.SetActive(false);
+            if (particulasJabon != null) particulasJabon.Stop();
+            if (objetoMojado != null) objetoMojado.SetActive(false);
+            return;
+        }
 
         float valorNormalizado = higieneManager.slider.value / higieneManager.slider.maxValue;
         RectTransform herramientaDeseada;

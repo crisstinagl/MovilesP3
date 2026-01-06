@@ -10,7 +10,7 @@ public class RoomsNavigation : MonoBehaviour, IEndDragHandler, IBeginDragHandler
     public RectTransform content;
     public int roomsNum = 4;
     public BedroomManager bedroomScript;
-    public int indexHabitacion = 0;
+    public int indexHabitacion = 0; // Índice de la habitación actual (0-based)
 
     private float targetRoom;
     private bool swiping = false;
@@ -39,6 +39,8 @@ public class RoomsNavigation : MonoBehaviour, IEndDragHandler, IBeginDragHandler
                 if (bedroomScript != null) bedroomScript.DespertarForzado();
             }
         }
+
+        Debug.Log(indexHabitacion);
     }
 
     public void OnBeginDrag(PointerEventData eventData) => swiping = true;
@@ -60,8 +62,11 @@ public class RoomsNavigation : MonoBehaviour, IEndDragHandler, IBeginDragHandler
         }
         targetRoom = nearest;
 
+        // Actualizar el índice de la habitación actual
+        indexHabitacion = nearestIndex;
+
         // Si se sale del dormitorio despertar
-        if (nearestIndex != indexHabitacion)
+        if (nearestIndex != indexHabitacion && bedroomScript != null)
         {
             bedroomScript.DespertarForzado();
         }
@@ -71,6 +76,9 @@ public class RoomsNavigation : MonoBehaviour, IEndDragHandler, IBeginDragHandler
     public void ChangeRoom(int index)
     {
         targetRoom = roomsPositions[index];
+
+        // Actualizar el índice de la habitación actual
+        indexHabitacion = index;
 
         // Si se sale del dormitorio despertar
         if (index != indexHabitacion && bedroomScript != null)
