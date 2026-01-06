@@ -11028,7 +11028,7 @@ GameObject:
   - component: {fileID: 1222531113}
   m_Layer: 5
   m_Name: Game_Slider
-  m_TagString: Untagged
+  m_TagString: BarraFun
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

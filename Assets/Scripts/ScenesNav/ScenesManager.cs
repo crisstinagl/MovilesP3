@@ -2,14 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI; // Necesario para controlar las barras (Image/Slider)
 using UnityEngine.Localization.Settings;
 using UnityEngine.SceneManagement;
 
-
-// Clase para gestionar la navegacion entre las escenas y el flujo del juego
 public class ScenesManager : MonoBehaviour
 {
-	public static ScenesManager Instance;
+    public static ScenesManager Instance;
 
     [Header("Necesidades")]
     public float hunger = 1.0f;
@@ -17,33 +16,33 @@ public class ScenesManager : MonoBehaviour
     public float fun = 1.0f;
 
     [Header("Ajustes de Audio")]
-	public AudioSource musicaSource;
-	public AudioSource uiSource;
-	public AudioClip sonidoClick;
+    public AudioSource musicaSource;
+    public AudioSource uiSource;
+    public AudioClip sonidoClick;
 
-	[Header("Daltonismo")]
-	public int actualColorFilter; // 0: Normal, 1: Protan, 2: Deutan, 3: Tritan
+    [Header("Daltonismo")]
+    public int actualColorFilter; // 0: Normal, 1: Protan, 2: Deutan, 3: Tritan
 
     [System.Serializable]
-	public struct AccesibilityFont
-	{
-		public TMP_FontAsset originalFont;
-		public TMP_FontAsset dyslexicFont;
-	};
+    public struct AccesibilityFont
+    {
+        public TMP_FontAsset originalFont;
+        public TMP_FontAsset dyslexicFont;
+    };
 
-	[Header("Mapeo de Fuentes")]
-	public List<AccesibilityFont> fontCatalog;
-	private Dictionary<TMP_Text, TMP_FontAsset> fontsMemory = new Dictionary<TMP_Text, TMP_FontAsset>();
+    [Header("Mapeo de Fuentes")]
+    public List<AccesibilityFont> fontCatalog;
+    private Dictionary<TMP_Text, TMP_FontAsset> fontsMemory = new Dictionary<TMP_Text, TMP_FontAsset>();
 
-	[HideInInspector] public float actualVol = 1.0f;
-	[HideInInspector] public float actualBrightness = 1.0f;
-	[HideInInspector] public bool isDyslexicMode;
+    [HideInInspector] public float actualVol = 1.0f;
+    [HideInInspector] public float actualBrightness = 1.0f;
+    [HideInInspector] public bool isDyslexicMode;
 
     [Header("Economía e Inventario")]
     public string nombreJugador = "PouPlayer";
     public int monedas;
-	public List<int> skinsCompradas = new List<int>();
-	public int skinEquipada = -1;
+    public List<int> skinsCompradas = new List<int>();
+    public int skinEquipada = -1;
 
     public bool isDirty = false;
 
@@ -64,22 +63,35 @@ public class ScenesManager : MonoBehaviour
     }
 
     void OnEnable() => SceneManager.sceneLoaded += OnSceneLoaded;
-	void OnDisable() => SceneManager.sceneLoaded -= OnSceneLoaded;
+    void OnDisable() => SceneManager.sceneLoaded -= OnSceneLoaded;
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         if (fontsMemory != null) fontsMemory.Clear();
+
+        Time.timeScale = 1.0f;
+
+        if (musicaSource != null)
+        {
+            musicaSource.volume = actualVol;
+        }
+
+        ApplyChanges();
+    }
+
+    // Esta es la "magia" simple para que funcione al cargar sin tener que pausar
+    IEnumerator WaitAndApply()
+    {
+        yield return null; // Espera 1 frame
         ApplyChanges();
     }
 
     public void AddCoins(int amount)
     {
         monedas += amount;
-        SaveSettings(); // Guardamos inmediatamente
+        SaveSettings();
         RefreshCoinsUI();
     }
-
-
 
     // FUNCIONES PARA LA GESTION DE LA FUENTE PARA DISLEXICOS
     public void ApplyDislexicFont(bool activate)
@@ -89,7 +101,11 @@ public class ScenesManager : MonoBehaviour
         PlayerPrefs.Save();
 
         TMP_Text[] textos = Resources.FindObjectsOfTypeAll<TMP_Text>();
-        foreach (var txt in textos) UpdateText(txt);
+        foreach (var txt in textos)
+        {
+            // Solo actualizamos textos que estén activos en la escena para evitar errores
+            if (txt.gameObject.activeInHierarchy) UpdateText(txt);
+        }
     }
 
     public void UpdateText(TMP_Text text)
@@ -110,12 +126,12 @@ public class ScenesManager : MonoBehaviour
 
     // FUNCIONES PARA LA GESTION DEL GUARDADO Y CARGA DE DATOS
     private void LoadSettings()
-	{
-		// Ajustes
-		actualVol = PlayerPrefs.GetFloat("Volumen", 1f);
-		actualBrightness = PlayerPrefs.GetFloat("Brillo", 1f);
-		isDyslexicMode = PlayerPrefs.GetInt("Dislexia", 0) == 1;
-		actualColorFilter = PlayerPrefs.GetInt("Daltonismo", 0);
+    {
+        // Ajustes
+        actualVol = PlayerPrefs.GetFloat("Volumen", 1f);
+        actualBrightness = PlayerPrefs.GetFloat("Brillo", 1f);
+        isDyslexicMode = PlayerPrefs.GetInt("Dislexia", 0) == 1;
+        actualColorFilter = PlayerPrefs.GetInt("Daltonismo", 0);
 
         int savedLanguage = PlayerPrefs.GetInt("IdiomaIndex", 0);
         ChangeLanguage(savedLanguage);
@@ -124,42 +140,46 @@ public class ScenesManager : MonoBehaviour
 
         // Tienda
         monedas = PlayerPrefs.GetInt("Monedas", 25);
-		skinEquipada = PlayerPrefs.GetInt("SkinEquipada", -1);
+        skinEquipada = PlayerPrefs.GetInt("SkinEquipada", -1);
         isDirty = PlayerPrefs.GetInt("EstaSucio", 0) == 1;
 
         string skinsData = PlayerPrefs.GetString("SkinsPoseidas", "");
-		if (!string.IsNullOrEmpty(skinsData))
-		{
-			string[] ids = skinsData.Split(',');
-			skinsCompradas.Clear();
-			foreach (var id in ids) skinsCompradas.Add(int.Parse(id));
-		}
+        if (!string.IsNullOrEmpty(skinsData))
+        {
+            string[] ids = skinsData.Split(',');
+            skinsCompradas.Clear();
+            foreach (var id in ids) skinsCompradas.Add(int.Parse(id));
+        }
 
         hunger = PlayerPrefs.GetFloat("HambreValue", 1.0f);
         hygiene = PlayerPrefs.GetFloat("HigieneValue", 1.0f);
         fun = PlayerPrefs.GetFloat("Entretenimiento", 1.0f);
 
-        ApplyChanges();
-	}
+        // No llamamos a ApplyChanges aquí directament para evitar conflictos en Awake
+        // Se llamará en OnSceneLoaded o Start
+    }
 
-	public void SaveSettings()
-	{
+    public void SaveSettings()
+    {
         // Ajustes
-		PlayerPrefs.SetFloat("Volumen", actualVol);
-		PlayerPrefs.SetFloat("Brillo", actualBrightness);
-		PlayerPrefs.SetInt("Dislexia", isDyslexicMode ? 1 : 0);
-		PlayerPrefs.SetInt("Daltonismo", actualColorFilter);
+        PlayerPrefs.SetFloat("Volumen", actualVol);
+        PlayerPrefs.SetFloat("Brillo", actualBrightness);
+        PlayerPrefs.SetInt("Dislexia", isDyslexicMode ? 1 : 0);
+        PlayerPrefs.SetInt("Daltonismo", actualColorFilter);
 
         var locales = LocalizationSettings.AvailableLocales.Locales;
-        int indiceActual = locales.IndexOf(LocalizationSettings.SelectedLocale);
-        PlayerPrefs.SetInt("IdiomaIndex", indiceActual);
+        if (LocalizationSettings.SelectedLocale != null)
+        {
+            int indiceActual = locales.IndexOf(LocalizationSettings.SelectedLocale);
+            PlayerPrefs.SetInt("IdiomaIndex", indiceActual);
+        }
 
         PlayerPrefs.SetString("NombreJugador", nombreJugador);
 
         // Tienda
         PlayerPrefs.SetInt("Monedas", monedas);
-		PlayerPrefs.SetInt("SkinEquipada", skinEquipada);
-		PlayerPrefs.SetString("SkinsPoseidas", string.Join(",", skinsCompradas));
+        PlayerPrefs.SetInt("SkinEquipada", skinEquipada);
+        PlayerPrefs.SetString("SkinsPoseidas", string.Join(",", skinsCompradas));
         PlayerPrefs.SetInt("EstaSucio", isDirty ? 1 : 0);
 
         PlayerPrefs.SetFloat("HambreValue", hunger);
@@ -167,31 +187,28 @@ public class ScenesManager : MonoBehaviour
         PlayerPrefs.SetFloat("Entretenimiento", fun);
 
         PlayerPrefs.Save();
-	}
+    }
 
-	public void ApplyChanges()
-	{
-		// Volumen
-		AudioListener.volume = actualVol;
+    public void ApplyChanges()
+    {
+        // Volumen
+        AudioListener.volume = actualVol;
 
         // Brillo
         GameObject overlay = GameObject.FindWithTag("BrilloOverlay");
         if (overlay != null)
         {
             var img = overlay.GetComponent<UnityEngine.UI.Image>();
-            img.color = new Color(0, 0, 0, Mathf.Clamp(1.0f - actualBrightness, 0f, 0.8f));
+            if (img != null)
+                img.color = new Color(0, 0, 0, Mathf.Clamp(1.0f - actualBrightness, 0f, 0.8f));
         }
 
         // Fuente dislexia
         TMP_Text[] allTexts = Resources.FindObjectsOfTypeAll<TMP_Text>();
         foreach (var text in allTexts)
         {
-            if (text == null || text.gameObject.hideFlags == HideFlags.NotEditable || text.gameObject.hideFlags == HideFlags.HideAndDontSave)
-                continue;
-
             UpdateText(text);
             text.ForceMeshUpdate();
-            text.SetAllDirty();
         }
 
         // Daltonismo
@@ -199,17 +216,21 @@ public class ScenesManager : MonoBehaviour
         if (filtroGO != null)
         {
             var img = filtroGO.GetComponent<UnityEngine.UI.Image>();
-            Color[] filterColors = {
-                new Color(0,0,0,0),             // Normal
-                new Color(0,0.4f,0.7f,0.15f),    // Protan
-                new Color(0.7f,0,0.7f,0.15f),    // Deutan
-                new Color(0.7f,0.7f,0,0.15f)     // Tritan
-            };
-            img.color = filterColors[actualColorFilter];
+            if (img != null)
+            {
+                Color[] filterColors = {
+                    new Color(0,0,0,0),             // Normal
+                    new Color(0,0.4f,0.7f,0.15f),   // Protan
+                    new Color(0.7f,0,0.7f,0.15f),   // Deutan
+                    new Color(0.7f,0.7f,0,0.15f)    // Tritan
+                };
+                img.color = filterColors[actualColorFilter];
+            }
         }
 
-        //Monedas
+        // Monedas y Necesidades
         RefreshCoinsUI();
+        RefreshNeedsUI(); // <--- ESTO FALTABA
     }
 
     public void UpdateValues(float vol, float bright, bool dyslexic, int colorIndex)
@@ -225,17 +246,18 @@ public class ScenesManager : MonoBehaviour
 
     // Funcion para gastar monedas 
     public bool TrySpendCoins(int amount)
-	{
-		if (monedas >= amount)
-		{
-			monedas -= amount;
-			SaveSettings();
-			return true;
-		}
-		return false;
-	}
+    {
+        if (monedas >= amount)
+        {
+            monedas -= amount;
+            SaveSettings();
+            RefreshCoinsUI(); // Añadido refresco
+            return true;
+        }
+        return false;
+    }
 
-    // Función global para actualizar el texto de monedas en cualquier parte
+    // Función global para actualizar el texto de monedas
     public void RefreshCoinsUI()
     {
         GameObject[] coinTexts = GameObject.FindGameObjectsWithTag("MonedasText");
@@ -246,38 +268,58 @@ public class ScenesManager : MonoBehaviour
         }
     }
 
+    // --- AQUÍ ESTÁ EL ARREGLO DE LAS BARRAS DE NECESIDADES ---
+    public void RefreshNeedsUI()
+    {
+        // Busca objetos con Tags específicos (Tendrás que ponerle Tag a tus barras)
+        // O busca por nombre si prefieres: GameObject.Find("BarraDiversion")
+
+        GameObject funBar = GameObject.FindWithTag("BarraFun");
+        if (funBar != null)
+        {
+            // Asumiendo que usas un Slider o una Imagen con Fill Amount
+            Image img = funBar.GetComponent<Image>();
+            if (img != null) img.fillAmount = fun;
+
+            Slider sld = funBar.GetComponent<Slider>();
+            if (sld != null) sld.value = fun;
+        }
+
+        // Puedes hacer lo mismo para Hambre e Higiene aquí si quieres
+    }
+
     // FUNCIONES PARA REPRODUCIR LA MUSICA Y LOS EFECTOS DE SONIDO
     private void PlayMusic()
     {
         if (musicaSource != null && !musicaSource.isPlaying)
         {
-            musicaSource.loop = true; // Asegurar que sea en bucle
+            musicaSource.loop = true;
             musicaSource.playOnAwake = true;
             musicaSource.Play();
         }
     }
 
     public void PlayClickSound()
-	{
-		if (uiSource != null && sonidoClick != null) uiSource.PlayOneShot(sonidoClick);
-	}
+    {
+        if (uiSource != null && sonidoClick != null) uiSource.PlayOneShot(sonidoClick);
+    }
 
     // Funcion para cambiar de escena
-    public void ChangeScene(string nombre) 
-	{	
-        fontsMemory.Clear(); 
-		SceneManager.LoadScene(nombre); 
-	}
+    public void ChangeScene(string nombre)
+    {
+        fontsMemory.Clear();
+        SceneManager.LoadScene(nombre);
+    }
 
     // FUNCIONES PARA CAMBIAR EL IDIOMA
-    public void ChangeLanguage(int index) 
-	{ 
-		StartCoroutine(SetLocale(index)); 
-	}
+    public void ChangeLanguage(int index)
+    {
+        StartCoroutine(SetLocale(index));
+    }
 
-	private IEnumerator SetLocale(int _localeID)
-	{
-		yield return LocalizationSettings.InitializationOperation;
+    private IEnumerator SetLocale(int _localeID)
+    {
+        yield return LocalizationSettings.InitializationOperation;
         var locales = LocalizationSettings.AvailableLocales.Locales;
 
         if (_localeID >= 0 && _localeID < locales.Count)
@@ -285,6 +327,8 @@ public class ScenesManager : MonoBehaviour
             LocalizationSettings.SelectedLocale = locales[_localeID];
             PlayerPrefs.SetInt("IdiomaIndex", _localeID);
             PlayerPrefs.Save();
+            yield return null; // Pequeña espera
+            ApplyChanges(); // Re-aplicar cambios
         }
     }
 
@@ -294,5 +338,6 @@ public class ScenesManager : MonoBehaviour
         if (fun > 1.0f) fun = 1.0f;
 
         SaveSettings();
+        RefreshNeedsUI(); // <--- AQUÍ ESTÁ LA CLAVE PARA QUE SE ACTUALICE VISUALMENTE
     }
 }

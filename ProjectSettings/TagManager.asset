@@ -7,6 +7,7 @@ TagManager:
   - BrilloOverlay
   - FiltroColor
   - MonedasText
+  - BarraFun
   layers:
   - Default
   - TransparentFX
