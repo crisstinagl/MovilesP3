@@ -48,23 +48,64 @@ public class LeaderboardManager : MonoBehaviour
     }
 
     // --- GUARDAR PUNTUACIÓN ---
-    public void GuardarPuntuacion(string nombreUsuario, int puntuacion)
+    public void GuardarPuntuacion(string nombreUsuario, int nuevaPuntuacion)
     {
         if (reference == null) return;
 
-        // Generamos una ID única basada en el dispositivo (o podrías usar Auth)
+        // Usamos la ID del dispositivo para que el usuario sea UNICO
         string userId = SystemInfo.deviceUniqueIdentifier;
 
-        // Creamos la clase de datos
-        UserScore nuevoScore = new UserScore(nombreUsuario, puntuacion);
+        // Referencia al nodo de este usuario específico
+        DatabaseReference usuarioRef = reference.Child("ranking").Child(userId);
+
+        // 1. PRIMERO LEEMOS LOS DATOS QUE YA EXISTEN
+        usuarioRef.GetValueAsync().ContinueWithOnMainThread(task => {
+            if (task.IsFaulted)
+            {
+                Debug.LogError("Error al leer datos para comparar");
+                return;
+            }
+
+            DataSnapshot snapshot = task.Result;
+
+            // 2. COMPROBAMOS SI YA EXISTE DATOS
+            if (snapshot.Exists && snapshot.Value != null)
+            {
+                // El usuario ya jugó antes, comprobamos si superó su récord
+                string jsonExistente = snapshot.GetRawJsonValue();
+                UserScore datosViejos = JsonUtility.FromJson<UserScore>(jsonExistente);
+
+                if (nuevaPuntuacion > datosViejos.score)
+                {
+                    // ¡ES UN RÉCORD! Sobrescribimos
+                    Debug.Log($"Nuevo récord ({nuevaPuntuacion} > {datosViejos.score}). Actualizando...");
+                    SubirDatosAFirebase(userId, nombreUsuario, nuevaPuntuacion);
+                }
+                else
+                {
+                    // NO ES RÉCORD. No hacemos nada.
+                    Debug.Log($"Puntuación {nuevaPuntuacion} no supera el récord de {datosViejos.score}. No se guarda.");
+                }
+            }
+            else
+            {
+                // Es la primera vez que juega. Guardamos directamente.
+                Debug.Log("Primer juego de este usuario. Guardando...");
+                SubirDatosAFirebase(userId, nombreUsuario, nuevaPuntuacion);
+            }
+        });
+    }
+
+    private void SubirDatosAFirebase(string userId, string nombre, int score)
+    {
+        UserScore nuevoScore = new UserScore(nombre, score);
         string json = JsonUtility.ToJson(nuevoScore);
 
-        // Guardamos en la ruta: "ranking / ID_USUARIO"
         reference.Child("ranking").Child(userId).SetRawJsonValueAsync(json)
             .ContinueWithOnMainThread(task => {
                 if (task.IsCompleted)
                 {
-                    Debug.Log("Puntuación subida a la nube");
+                    Debug.Log("Datos guardados en la nube exitosamente.");
                 }
             });
     }
