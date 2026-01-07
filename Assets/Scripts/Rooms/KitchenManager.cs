@@ -104,7 +104,20 @@ public class KitchenManager : MonoBehaviour,
 
         if (canvasComida != null)
         {
-            canvasComida.sortingOrder = 50; 
+            canvasComida.sortingOrder = 50;
+        }
+
+        if (hungerManager != null && hungerManager.slider != null)
+        {
+            float porcentajeHambre = hungerManager.slider.value / hungerManager.slider.maxValue;
+
+            if (porcentajeHambre >= 0.9f)
+            {
+                if (imagenCaraMascota != null && caraAsco != null)
+                    imagenCaraMascota.sprite = caraAsco;
+
+                return;
+            }
         }
 
         if (imagenCaraMascota != null && caraComiendo != null)
@@ -131,6 +144,17 @@ public class KitchenManager : MonoBehaviour,
 
         if (estaTocandoBoca)
         {
+            if (hungerManager != null && hungerManager.slider != null)
+            {
+                float porcentajeHambre = hungerManager.slider.value / hungerManager.slider.maxValue;
+
+                if (porcentajeHambre >= 0.9f)
+                {
+                    RegresarPosicion();
+                    return;
+                }
+            }
+
             ConsumirComida();
         }
         else
