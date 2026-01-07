@@ -29,11 +29,10 @@ public class KitchenManager : MonoBehaviour,
     [Range(0f, 1f)]
     public float cantidadHambrePorComida = 0.4f;
 
-    // --------- Estado interno ---------
     private int indiceComida = 0;
     private Vector2 posicionOriginal;
     private Canvas parentCanvas; 
-    private Canvas canvasComida; // El canvas propio de la comida
+    private Canvas canvasComida;
 
     private bool isDragging = false;
     private bool estaTocandoBoca = false;
@@ -47,7 +46,6 @@ public class KitchenManager : MonoBehaviour,
             posicionOriginal = imagenComidaDisplay.rectTransform.anchoredPosition;
             ActualizarDibujoComida();
             
-            // Configurar el Canvas en la comida
             if (imagenComidaDisplay.GetComponent<Canvas>() == null)
             {
                 canvasComida = imagenComidaDisplay.gameObject.AddComponent<Canvas>();
@@ -58,11 +56,10 @@ public class KitchenManager : MonoBehaviour,
                 canvasComida = imagenComidaDisplay.GetComponent<Canvas>();
             }
 
-            // --- CONFIGURACIÓN INICIAL (ORDEN 1) ---
             if (canvasComida != null)
             {
                 canvasComida.overrideSorting = true;
-                canvasComida.sortingOrder = 1; // Orden por defecto en reposo
+                canvasComida.sortingOrder = 1;
             }
         }
 
@@ -72,8 +69,6 @@ public class KitchenManager : MonoBehaviour,
         if (flechaDerecha != null)
             flechaDerecha.onClick.AddListener(SiguienteComida);
     }
-
-    // ---------------- CARRUSEL ----------------
 
     public void SiguienteComida()
     {
@@ -97,8 +92,6 @@ public class KitchenManager : MonoBehaviour,
             imagenComidaDisplay.sprite = spritesComida[indiceComida];
     }
 
-    // ---------------- DRAG ----------------
-
     public void OnBeginDrag(PointerEventData eventData)
     {
         if (roomsNavigation != null && roomsNavigation.indexHabitacion != kitchenRoomIndex)
@@ -109,10 +102,9 @@ public class KitchenManager : MonoBehaviour,
 
         SetFlechasActivas(false);
 
-        // --- AL ARRASTRAR: CAPA SUPERIOR (100) ---
         if (canvasComida != null)
         {
-            canvasComida.sortingOrder = 100; 
+            canvasComida.sortingOrder = 50; 
         }
 
         if (imagenCaraMascota != null && caraComiendo != null)
@@ -147,8 +139,6 @@ public class KitchenManager : MonoBehaviour,
         }
     }
 
-    // ---------------- COMER ----------------
-
     void ConsumirComida()
     {
         if (hungerManager != null && hungerManager.slider != null)
@@ -167,7 +157,6 @@ public class KitchenManager : MonoBehaviour,
     {
         imagenComidaDisplay.rectTransform.anchoredPosition = posicionOriginal;
         
-        // --- AL SOLTAR: VUELVE A CAPA 1 ---
         if (canvasComida != null)
         {
             canvasComida.sortingOrder = 1;
@@ -180,8 +169,6 @@ public class KitchenManager : MonoBehaviour,
             
         estaTocandoBoca = false;
     }
-
-    // ---------------- UTILIDADES ----------------
 
     void SetFlechasActivas(bool state)
     {
