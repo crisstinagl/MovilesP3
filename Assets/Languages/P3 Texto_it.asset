@@ -118,6 +118,26 @@ MonoBehaviour:
     m_Localized: Soldi insufficienti!
     m_Metadata:
       m_Items: []
+  - m_Id: 2804343884013568
+    m_Localized: 'Punti:'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2804432132169728
+    m_Localized: 'Vite:'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2804436028678144
+    m_Localized: "\xC8 FINITA!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2804482379931648
+    m_Localized: 'Monete:'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2804492362375168
+    m_Localized: Riprova
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

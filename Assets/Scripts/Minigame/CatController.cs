@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 using TMPro;
 using UnityEngine.SceneManagement;
+using UnityEngine.Localization.Settings;
 
 public class CatController : MonoBehaviour
 {
@@ -16,7 +17,10 @@ public class CatController : MonoBehaviour
 
     [Header("Referencias UI (Game Over)")]
     public GameObject panelGameOver;
-    public TextMeshProUGUI textoResultado;
+    public TextMeshProUGUI textoResultadoPuntos;
+    public TextMeshProUGUI textoResultadoMonedas;
+    public TextMeshProUGUI valorResultadoPuntos;
+    public TextMeshProUGUI valorResultadoMonedas;
 
     // REFERENCIA AL OTRO SCRIPT
     public CatSkin miSkinVisuals;
@@ -85,8 +89,21 @@ public class CatController : MonoBehaviour
 
     void ActualizarMarcador()
     {
-        textoPuntos.text = "Puntos: " + puntos;
-        textoVidas.text = "Vidas: " + vidas;
+        // Traducciones
+        string tabla = "P3 Texto";
+
+        string txtPuntos = LocalizationSettings.StringDatabase.GetLocalizedString(tabla, "txt_puntos");
+        string txtVidas = LocalizationSettings.StringDatabase.GetLocalizedString(tabla, "txt_vidas");
+
+        textoPuntos.text = txtPuntos + " " + puntos;
+        textoVidas.text = txtVidas + " " + vidas;
+
+        // Dislexia
+        if (ScenesManager.Instance != null)
+        {
+            ScenesManager.Instance.UpdateText(textoPuntos);
+            ScenesManager.Instance.UpdateText(textoVidas);
+        }
     }
 
     IEnumerator RutinaCara(string tipo)
@@ -103,7 +120,6 @@ public class CatController : MonoBehaviour
     void GameOver()
     {
         juegoTerminado = true;
-
         int monedasGanadas = Mathf.CeilToInt(puntos / 10f);
 
         if (ScenesManager.Instance != null)
@@ -119,7 +135,15 @@ public class CatController : MonoBehaviour
             ScenesManager.Instance.SaveSettings();
         }
 
-        textoResultado.text = "Puntos: " + puntos + "\n\nMonedas: " + monedasGanadas;
+        valorResultadoPuntos.text = "" + puntos;
+        valorResultadoMonedas.text = "" + monedasGanadas;
+
+        // Dislexia
+        if (ScenesManager.Instance != null)
+        {
+            ScenesManager.Instance.UpdateText(textoResultadoPuntos);
+            ScenesManager.Instance.UpdateText(textoResultadoMonedas);
+        }
 
         panelGameOver.SetActive(true);
         Time.timeScale = 0f;
