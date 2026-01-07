@@ -2,19 +2,11 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class KitchenManager : MonoBehaviour,
-    IBeginDragHandler, IDragHandler, IEndDragHandler
+public class KitchenManager : MonoBehaviour
 {
     [Header("Navegación")]
     public RoomsNavigation roomsNavigation;
     public int kitchenRoomIndex = 2;
-
-    [Header("Referencias Mascota")]
-    public NeedsManager hungerManager;
-    public Image imagenCaraMascota;
-    public Sprite caraNormal;
-    public Sprite caraComiendo;
-    public Sprite caraAsco;
 
     [Header("Carrusel de Comida")]
     public Image imagenComidaDisplay;
@@ -25,17 +17,19 @@ public class KitchenManager : MonoBehaviour,
     [Header("Área de Detección")]
     public RectTransform areaBocaGato;
 
+    [Header("Mascota")]
+    public NeedsManager hungerManager;
+
     [Header("Comida")]
     [Range(0f, 1f)]
     public float cantidadHambrePorComida = 0.4f;
 
     private int indiceComida = 0;
     private Vector2 posicionOriginal;
-    private Canvas parentCanvas; 
-    private Canvas canvasComida;
+    private Canvas parentCanvas;
 
-    private bool isDragging = false;
-    private bool estaTocandoBoca = false;
+    [HideInInspector]
+    public bool estaTocandoBoca = false;
 
     void Start()
     {
@@ -45,16 +39,6 @@ public class KitchenManager : MonoBehaviour,
         {
             posicionOriginal = imagenComidaDisplay.rectTransform.anchoredPosition;
             ActualizarDibujoComida();
-            
-            if (imagenComidaDisplay.GetComponent<Canvas>() == null)
-            {
-                canvasComida = imagenComidaDisplay.gameObject.AddComponent<Canvas>();
-                imagenComidaDisplay.gameObject.AddComponent<GraphicRaycaster>();
-            }
-            else
-            {
-                canvasComida = imagenComidaDisplay.GetComponent<Canvas>();
-            }
         }
 
         if (flechaIzquierda != null)
@@ -86,111 +70,63 @@ public class KitchenManager : MonoBehaviour,
             imagenComidaDisplay.sprite = spritesComida[indiceComida];
     }
 
-    public void OnBeginDrag(PointerEventData eventData)
+    public bool PuedeArrastrarComida()
     {
-        if (roomsNavigation != null && roomsNavigation.indexHabitacion != kitchenRoomIndex)
-            return;
+        if (roomsNavigation != null &&
+            roomsNavigation.indexHabitacion != kitchenRoomIndex)
+            return false;
 
-        isDragging = true;
-        estaTocandoBoca = false;
-
-        SetFlechasActivas(false);
-
-        if (canvasComida != null)
-        {
-            canvasComida.sortingOrder = 50;
-        }
-
-        if (hungerManager != null && hungerManager.slider != null)
-        {
-            float porcentajeHambre = hungerManager.slider.value / hungerManager.slider.maxValue;
-
-            if (porcentajeHambre >= 0.9f)
-            {
-                if (imagenCaraMascota != null && caraAsco != null)
-                    imagenCaraMascota.sprite = caraAsco;
-
-                return;
-            }
-        }
-
-        if (imagenCaraMascota != null && caraComiendo != null)
-            imagenCaraMascota.sprite = caraComiendo;
+        return true;
     }
 
-    public void OnDrag(PointerEventData eventData)
+    public void OnComidaDragStart()
     {
-        if (!isDragging) return;
+        SetFlechasActivas(false);
+    }
 
-        imagenComidaDisplay.rectTransform.anchoredPosition += eventData.delta / parentCanvas.scaleFactor;
-
+    public void OnComidaDragging(PointerEventData eventData)
+    {
         estaTocandoBoca = RectTransformUtility.RectangleContainsScreenPoint(
             areaBocaGato,
             eventData.position,
-            parentCanvas.renderMode == RenderMode.ScreenSpaceOverlay ? null : parentCanvas.worldCamera);
+            parentCanvas.renderMode == RenderMode.ScreenSpaceOverlay
+                ? null
+                : parentCanvas.worldCamera);
     }
 
-    public void OnEndDrag(PointerEventData eventData)
+    public void OnComidaDragEnd()
     {
-        if (!isDragging) return;
-
-        isDragging = false;
-
-        if (estaTocandoBoca)
-        {
-            if (hungerManager != null && hungerManager.slider != null)
-            {
-                float porcentajeHambre = hungerManager.slider.value / hungerManager.slider.maxValue;
-
-                if (porcentajeHambre >= 0.9f)
-                {
-                    RegresarPosicion();
-                    return;
-                }
-            }
-
-            ConsumirComida();
-        }
-        else
-        {
-            RegresarPosicion();
-        }
+        SetFlechasActivas(true);
+        estaTocandoBoca = false;
     }
 
-    void ConsumirComida()
+    public void ConsumirComidaDirecto()
     {
         if (hungerManager != null && hungerManager.slider != null)
         {
             float cantidadReal = hungerManager.slider.maxValue * cantidadHambrePorComida;
-            float nuevoValor = Mathf.Min(hungerManager.slider.value + cantidadReal, hungerManager.slider.maxValue);
-            hungerManager.slider.value = nuevoValor;
+            hungerManager.slider.value = Mathf.Min(
+                hungerManager.slider.value + cantidadReal,
+                hungerManager.slider.maxValue);
 
             hungerManager.GuardarDatos();
         }
 
-        RegresarPosicion();
+        RegresarPosicionDirecto();
     }
 
-    void RegresarPosicion()
+    public void RegresarPosicionDirecto()
     {
-        imagenComidaDisplay.rectTransform.anchoredPosition = posicionOriginal;
-        
-        if (canvasComida != null)
-        {
-            canvasComida.sortingOrder = 1;
-        }
-
-        SetFlechasActivas(true);
-
-        if (imagenCaraMascota != null)
-            imagenCaraMascota.sprite = caraNormal;
-            
-        estaTocandoBoca = false;
+        if (imagenComidaDisplay != null)
+            imagenComidaDisplay.rectTransform.anchoredPosition = posicionOriginal;
     }
 
     void SetFlechasActivas(bool state)
     {
-        if (flechaIzquierda != null) flechaIzquierda.gameObject.SetActive(state);
-        if (flechaDerecha != null) flechaDerecha.gameObject.SetActive(state);
+        if (flechaIzquierda != null)
+            flechaIzquierda.gameObject.SetActive(state);
+
+        if (flechaDerecha != null)
+            flechaDerecha.gameObject.SetActive(state);
     }
 }
