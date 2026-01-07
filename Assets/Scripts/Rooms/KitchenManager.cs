@@ -55,12 +55,6 @@ public class KitchenManager : MonoBehaviour,
             {
                 canvasComida = imagenComidaDisplay.GetComponent<Canvas>();
             }
-
-            if (canvasComida != null)
-            {
-                canvasComida.overrideSorting = true;
-                canvasComida.sortingOrder = 1;
-            }
         }
 
         if (flechaIzquierda != null)
