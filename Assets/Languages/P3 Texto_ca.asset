@@ -118,6 +118,26 @@ MonoBehaviour:
     m_Localized: Fons insuficients!
     m_Metadata:
       m_Items: []
+  - m_Id: 2804343884013568
+    m_Localized: 'Punts:'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2804432132169728
+    m_Localized: 'Vides:'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2804436028678144
+    m_Localized: FI DE PARTIDA!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2804482379931648
+    m_Localized: 'Monedes:'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2804492362375168
+    m_Localized: "Tornar a comen\xE7ar"
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

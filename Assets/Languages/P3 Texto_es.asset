@@ -118,6 +118,26 @@ MonoBehaviour:
     m_Localized: "\xA1Dinero insuficiente!"
     m_Metadata:
       m_Items: []
+  - m_Id: 2804343884013568
+    m_Localized: 'Puntos:'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2804492362375168
+    m_Localized: Reintentar
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2804482379931648
+    m_Localized: 'Monedas:'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2804436028678144
+    m_Localized: "\xA1SE ACAB\xD3!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2804432132169728
+    m_Localized: 'Vidas:'
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []
