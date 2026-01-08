@@ -39,7 +39,7 @@ public class ScenesManager : MonoBehaviour
     [HideInInspector] public bool isDyslexicMode;
 
     [Header("Economía e Inventario")]
-    public string nombreJugador = "PouPlayer";
+    public string nombreJugador = "";
     public int monedas;
     public List<int> skinsCompradas = new List<int>();
     public int skinEquipada = -1;
@@ -135,7 +135,7 @@ public class ScenesManager : MonoBehaviour
         int savedLanguage = PlayerPrefs.GetInt("IdiomaIndex", 0);
         ChangeLanguage(savedLanguage);
 
-        nombreJugador = PlayerPrefs.GetString("NombreJugador", "Gatito");
+        nombreJugador = PlayerPrefs.GetString("NombreJugador", "");
 
         // Tienda
         monedas = PlayerPrefs.GetInt("Monedas", 25);

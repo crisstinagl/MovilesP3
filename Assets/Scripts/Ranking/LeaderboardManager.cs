@@ -47,6 +47,60 @@ public class LeaderboardManager : MonoBehaviour
         });
     }
 
+    // --- VERIFICAR SI EL NOMBRE ESTÁ LIBRE ---
+    public void VerificarNombreDisponible(string nombre, System.Action<bool> callback)
+    {
+        if (reference == null)
+        {
+            callback(false); // Si no hay conexión, bloqueamos por seguridad
+            return;
+        }
+
+        string miId = SystemInfo.deviceUniqueIdentifier;
+
+        // Buscamos en toda la base de datos si alguien tiene ese nombre
+        reference.Child("ranking").OrderByChild("name").EqualTo(nombre)
+            .GetValueAsync().ContinueWithOnMainThread(task => {
+
+                if (task.IsFaulted)
+                {
+                    Debug.LogError("Error al verificar nombre");
+                    callback(false);
+                    return;
+                }
+
+                DataSnapshot snapshot = task.Result;
+
+                if (!snapshot.Exists || snapshot.ChildrenCount == 0)
+                {
+                    callback(true);
+                    return;
+                }
+
+                bool esMio = false;
+                foreach (DataSnapshot child in snapshot.Children)
+                {
+                    if (child.Key == miId)
+                    {
+                        esMio = true;
+                        break;
+                    }
+                }
+
+                callback(esMio);
+            });
+    }
+
+    // --- GUARDAR SOLO EL NOMBRE ---
+    public void RegistrarNombre(string nombre)
+    {
+        if (reference == null) return;
+        string userId = SystemInfo.deviceUniqueIdentifier;
+
+        // Actualizamos SOLAMENTE el campo 'name', sin borrar la puntuación ('score')
+        reference.Child("ranking").Child(userId).Child("name").SetValueAsync(nombre);
+    }
+
     // --- GUARDAR PUNTUACIÓN ---
     public void GuardarPuntuacion(string nombreUsuario, int nuevaPuntuacion)
     {
