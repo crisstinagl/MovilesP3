@@ -3,7 +3,7 @@ using UnityEngine;
 public class Food : MonoBehaviour
 {
     public float velocidadCaida = 5f;
-    public bool esComidaBuena = true; // Marca esto false si es veneno/basura
+    public bool esComidaBuena = true; // False si es mala
 
     private float velocidadRotacion;
 

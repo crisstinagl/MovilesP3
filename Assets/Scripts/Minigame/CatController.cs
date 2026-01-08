@@ -22,7 +22,6 @@ public class CatController : MonoBehaviour
     public TextMeshProUGUI valorResultadoPuntos;
     public TextMeshProUGUI valorResultadoMonedas;
 
-    // REFERENCIA AL OTRO SCRIPT
     public CatSkin miSkinVisuals;
 
     private bool juegoTerminado = false;
@@ -47,17 +46,16 @@ public class CatController : MonoBehaviour
         transform.position = posicion;
     }
 
-    // CUANDO CHOCAMOS CON COMIDA
+    // CUANDO CHOCA CON COMIDA
     private void OnTriggerEnter2D(Collider2D otroObjeto)
     {
         Food food = otroObjeto.GetComponent<Food>();
 
         if (food != null)
         {
-            // Llamamos a la función de lógica de juego
             ProcesarComida(food.esComidaBuena);
 
-            // Borramos la comida
+            // Borra la comida
             Destroy(otroObjeto.gameObject);
         }
     }
@@ -76,14 +74,13 @@ public class CatController : MonoBehaviour
             vidas--;
             StartCoroutine(RutinaCara("asco"));
 
-            // Si nos quedamos sin vidas... ¡Game Over!
+            // Sin vidas - fin
             if (vidas <= 0)
             {
                 GameOver();
             }
         }
 
-        // Siempre actualizamos el texto después de comer
         ActualizarMarcador();
     }
 
@@ -108,12 +105,10 @@ public class CatController : MonoBehaviour
 
     IEnumerator RutinaCara(string tipo)
     {
-        // 1. Le decimos al otro script que cambie la cara
         miSkinVisuals.PonerCara(tipo);
 
         yield return new WaitForSeconds(0.5f);
 
-        // 2. Le decimos que vuelva a la normal
         miSkinVisuals.ResetearCara();
     }
 

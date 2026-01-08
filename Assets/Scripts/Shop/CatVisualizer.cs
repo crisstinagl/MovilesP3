@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
+// Clase para gestionar la apariencia del gato
 public class VisualizadorMascota : MonoBehaviour
 {
     [Header("Referencias")]

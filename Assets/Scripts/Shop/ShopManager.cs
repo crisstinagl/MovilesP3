@@ -56,7 +56,7 @@ public class ShopManager : MonoBehaviour
 	{
 		if (index < 0 || index >= skinsDisponibles.Length) return;
 
-		// Si ya la tiene comprada, equipar/desequipar
+		// Si la tiene comprada, equipar/desequipar
 		if (ScenesManager.Instance.skinsCompradas.Contains(index))
 		{
 			EquiparSkin(index);

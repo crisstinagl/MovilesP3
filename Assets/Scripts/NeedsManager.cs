@@ -20,7 +20,6 @@ public class NeedsManager : MonoBehaviour
 
     void Start()
     {
-        // 1. PRIMERO: Intentamos leer del Manager Global (tiene la info más fresca del minijuego)
         if (ScenesManager.Instance != null)
         {
             switch (idGuardado)
@@ -31,14 +30,10 @@ public class NeedsManager : MonoBehaviour
                 case "Higiene":
                     slider.value = ScenesManager.Instance.hygiene;
                     break;
-                // case "Sueño": 
-                //    slider.value = ScenesManager.Instance.sleep; // Descomenta si tienes sueño
-                //    break;
                 case "Entretenimiento":
-                    slider.value = ScenesManager.Instance.fun; // <--- AQUÍ RECIBE LOS PUNTOS DEL JUEGO
+                    slider.value = ScenesManager.Instance.fun;
                     break;
                 default:
-                    // Si no está en el Manager, usamos el guardado de disco
                     if (PlayerPrefs.HasKey(idGuardado))
                         slider.value = PlayerPrefs.GetFloat(idGuardado);
                     break;
@@ -49,7 +44,7 @@ public class NeedsManager : MonoBehaviour
             slider.value = PlayerPrefs.GetFloat(idGuardado);
         }
 
-        // Lógica de suciedad (Visual)
+        // Logica de suciedad (Visual)
         ActualizarSuciedadVisual();
     }
 
@@ -61,7 +56,6 @@ public class NeedsManager : MonoBehaviour
             slider.value -= velocidadDescenso * Time.deltaTime;
         }
 
-        // 2. SEGUNDO: Mantenemos informado al Manager Global mientras baja la barra
         if (ScenesManager.Instance != null)
         {
             switch (idGuardado)
@@ -108,7 +102,6 @@ public class NeedsManager : MonoBehaviour
         if (!string.IsNullOrEmpty(idGuardado))
         {
             PlayerPrefs.SetFloat(idGuardado, slider.value);
-            // También le decimos al Manager que guarde todo en disco
             if (ScenesManager.Instance != null) ScenesManager.Instance.SaveSettings();
             else PlayerPrefs.Save();
         }

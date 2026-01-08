@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+// Clase utilizada para la gestion de paneles y cargas de escena
 public class UIManager : MonoBehaviour
 {
 	[Header("Paneles")]
@@ -9,16 +10,20 @@ public class UIManager : MonoBehaviour
 	public GameObject panelPausa;
 	public GameObject panelShop;
 
+	// Abrir/Cerrar el panel de ajustes
 	public void OpenSettings() => panelAjustes.SetActive(true);
 	public void CloseSettings() => panelAjustes.SetActive(false);
 
-	public void OpenRanking() => panelRanking.SetActive(true);
+    // Abrir/Cerrar el panel de ranking
+    public void OpenRanking() => panelRanking.SetActive(true);
 	public void CloseRanking() => panelRanking.SetActive(false);
 
-	public void OpenShop() => panelShop.SetActive(true);
+    // Abrir/Cerrar el panel de tienda
+    public void OpenShop() => panelShop.SetActive(true);
 	public void CloseShop() => panelShop.SetActive(false);
 
-	public void TogglePauseMenu()
+    // Alternar el panel de pausa
+    public void TogglePauseMenu()
 	{
 		if (panelPausa != null)
 		{
@@ -30,21 +35,25 @@ public class UIManager : MonoBehaviour
 		}
 	}
 
-	public void LoadMainMenu()
+    // Cargar escena de menu principal
+    public void LoadMainMenu()
 	{
 		 ScenesManager.Instance.ChangeScene("MainMenu");
     }
 
+    // Cargar escena de juego
     public void LoadGame()
 	{
 		 ScenesManager.Instance.ChangeScene("Game");
 	}
 
+    // Cargar escena de minijuego
     public void LoadMinigame()
     {
         ScenesManager.Instance.ChangeScene("Minigame");
     }
 
+    // Salir del juego
     public void ExitGame()
 	{
 		Application.Quit();

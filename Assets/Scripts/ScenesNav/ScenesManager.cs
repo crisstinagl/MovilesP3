@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI; // Necesario para controlar las barras (Image/Slider)
+using UnityEngine.UI;
 using UnityEngine.Localization.Settings;
 using UnityEngine.SceneManagement;
 
@@ -79,7 +79,6 @@ public class ScenesManager : MonoBehaviour
         ApplyChanges();
     }
 
-    // Esta es la "magia" simple para que funcione al cargar sin tener que pausar
     IEnumerator WaitAndApply()
     {
         yield return null; // Espera 1 frame
@@ -154,9 +153,6 @@ public class ScenesManager : MonoBehaviour
         hunger = PlayerPrefs.GetFloat("HambreValue", 1.0f);
         hygiene = PlayerPrefs.GetFloat("HigieneValue", 1.0f);
         fun = PlayerPrefs.GetFloat("Entretenimiento", 1.0f);
-
-        // No llamamos a ApplyChanges aquí directament para evitar conflictos en Awake
-        // Se llamará en OnSceneLoaded o Start
     }
 
     public void SaveSettings()
@@ -230,7 +226,7 @@ public class ScenesManager : MonoBehaviour
 
         // Monedas y Necesidades
         RefreshCoinsUI();
-        RefreshNeedsUI(); // <--- ESTO FALTABA
+        RefreshNeedsUI();
     }
 
     public void UpdateValues(float vol, float bright, bool dyslexic, int colorIndex)
@@ -271,21 +267,15 @@ public class ScenesManager : MonoBehaviour
     // --- AQUÍ ESTÁ EL ARREGLO DE LAS BARRAS DE NECESIDADES ---
     public void RefreshNeedsUI()
     {
-        // Busca objetos con Tags específicos (Tendrás que ponerle Tag a tus barras)
-        // O busca por nombre si prefieres: GameObject.Find("BarraDiversion")
-
         GameObject funBar = GameObject.FindWithTag("BarraFun");
         if (funBar != null)
         {
-            // Asumiendo que usas un Slider o una Imagen con Fill Amount
             Image img = funBar.GetComponent<Image>();
             if (img != null) img.fillAmount = fun;
 
             Slider sld = funBar.GetComponent<Slider>();
             if (sld != null) sld.value = fun;
         }
-
-        // Puedes hacer lo mismo para Hambre e Higiene aquí si quieres
     }
 
     // FUNCIONES PARA REPRODUCIR LA MUSICA Y LOS EFECTOS DE SONIDO
@@ -338,6 +328,6 @@ public class ScenesManager : MonoBehaviour
         if (fun > 1.0f) fun = 1.0f;
 
         SaveSettings();
-        RefreshNeedsUI(); // <--- AQUÍ ESTÁ LA CLAVE PARA QUE SE ACTUALICE VISUALMENTE
+        RefreshNeedsUI();
     }
 }

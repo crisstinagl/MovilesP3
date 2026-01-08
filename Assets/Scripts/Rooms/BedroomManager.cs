@@ -22,22 +22,20 @@ public class BedroomManager : MonoBehaviour
 
     void Start()
     {
-        // Aseguramos que empiece despierto
+        // Empieza despierto
         estaDurmiendo = false;
         ActualizarVisuales();
     }
 
     void Update()
     {
-        // Si está durmiendo, recargamos la necesidad de sueño
+        // Si esta durmiendo recarga la necesidad de sueño
         if (estaDurmiendo && managerSueño != null)
         {
-            // Usamos Time.deltaTime para que la recarga sea suave en el tiempo
             managerSueño.ReloadNeed(velocidadRecuperacion * Time.deltaTime);
         }
     }
 
-    // Esta función la llamaremos desde el Botón de la lámpara
     public void ToggleLampara()
     {
         estaDurmiendo = !estaDurmiendo; // Invierte el valor 

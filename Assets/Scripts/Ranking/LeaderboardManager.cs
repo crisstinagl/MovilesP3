@@ -1,10 +1,10 @@
 using UnityEngine;
 using Firebase;
 using Firebase.Database;
-using Firebase.Extensions; // Necesario para las tareas asíncronas
+using Firebase.Extensions;
 using System.Collections.Generic;
-using System.Linq; // Para ordenar listas
-using TMPro; // Para la UI
+using System.Linq;
+using TMPro;
 
 public class LeaderboardManager : MonoBehaviour
 {
@@ -13,8 +13,8 @@ public class LeaderboardManager : MonoBehaviour
     DatabaseReference reference;
 
     [Header("UI del Ranking")]
-    public GameObject filaPrefab; // El diseño de una fila (Nombre - Puntos)
-    public Transform contentTabla; // El contenedor dentro del ScrollView
+    public GameObject filaPrefab; // diseño de una fila (Nombre - Puntos)
+    public Transform contentTabla;
 
     void Awake()
     {
@@ -32,7 +32,7 @@ public class LeaderboardManager : MonoBehaviour
 
     void Start()
     {
-        // 1. Inicializar Firebase
+        // Inicializar Firebase
         FirebaseApp.CheckAndFixDependenciesAsync().ContinueWithOnMainThread(task => {
             if (task.Result == DependencyStatus.Available)
             {
@@ -58,7 +58,7 @@ public class LeaderboardManager : MonoBehaviour
         // Referencia al nodo de este usuario específico
         DatabaseReference usuarioRef = reference.Child("ranking").Child(userId);
 
-        // 1. PRIMERO LEEMOS LOS DATOS QUE YA EXISTEN
+        // LEEMOS LOS DATOS QUE YA EXISTEN
         usuarioRef.GetValueAsync().ContinueWithOnMainThread(task => {
             if (task.IsFaulted)
             {
@@ -68,28 +68,27 @@ public class LeaderboardManager : MonoBehaviour
 
             DataSnapshot snapshot = task.Result;
 
-            // 2. COMPROBAMOS SI YA EXISTE DATOS
+            // COMPROBAR SI YA EXISTE DATOS
             if (snapshot.Exists && snapshot.Value != null)
             {
-                // El usuario ya jugó antes, comprobamos si superó su récord
                 string jsonExistente = snapshot.GetRawJsonValue();
                 UserScore datosViejos = JsonUtility.FromJson<UserScore>(jsonExistente);
 
                 if (nuevaPuntuacion > datosViejos.score)
                 {
-                    // ¡ES UN RÉCORD! Sobrescribimos
+                    // Nuevo record - Sobrescribir
                     Debug.Log($"Nuevo récord ({nuevaPuntuacion} > {datosViejos.score}). Actualizando...");
                     SubirDatosAFirebase(userId, nombreUsuario, nuevaPuntuacion);
                 }
                 else
                 {
-                    // NO ES RÉCORD. No hacemos nada.
+                    // No record
                     Debug.Log($"Puntuación {nuevaPuntuacion} no supera el récord de {datosViejos.score}. No se guarda.");
                 }
             }
             else
             {
-                // Es la primera vez que juega. Guardamos directamente.
+                // Primera vez - guardar
                 Debug.Log("Primer juego de este usuario. Guardando...");
                 SubirDatosAFirebase(userId, nombreUsuario, nuevaPuntuacion);
             }
@@ -115,11 +114,10 @@ public class LeaderboardManager : MonoBehaviour
     {
         if (reference == null) return;
 
-        // Limpiamos la tabla vieja
+        // Limpiar tabla vieja
         foreach (Transform child in contentTabla) Destroy(child.gameObject);
 
-        // Pedimos los datos ordenados por puntuación (Firebase ordena ascendente)
-        // LimitToLast(10) nos da los 10 últimos (que son los más altos)
+        // Acceder a los 10 ultimos datos ordenados por puntuación en ascendente
         reference.Child("ranking").OrderByChild("score").LimitToLast(10)
             .GetValueAsync().ContinueWithOnMainThread(task => {
 
@@ -132,7 +130,7 @@ public class LeaderboardManager : MonoBehaviour
                     DataSnapshot snapshot = task.Result;
                     List<UserScore> listaScores = new List<UserScore>();
 
-                    // Convertimos los datos de Firebase a nuestra lista
+                    // Convertir los datos de Firebase a la lista
                     foreach (DataSnapshot child in snapshot.Children)
                     {
                         string json = child.GetRawJsonValue();
@@ -140,27 +138,24 @@ public class LeaderboardManager : MonoBehaviour
                         listaScores.Add(userScore);
                     }
 
-                    // COMO FIREBASE ORDENA DE MENOR A MAYOR, LE DAMOS LA VUELTA
+                    // Dar la vuelta al orden
                     listaScores.Reverse();
                     int posicionRanking = 1;
 
-                    // Creamos las filas visuales
+                    // Crear filas visuales
                     foreach (UserScore s in listaScores)
                     {
                         GameObject nuevaFila = Instantiate(filaPrefab, contentTabla);
-                        // Asumimos que el prefab tiene un script o textos hijos
-                        // Aquí lo hago simple buscando componentes:
                         TMP_Text[] textos = nuevaFila.GetComponentsInChildren<TMP_Text>();
                         if (textos.Length >= 3)
                         {
-                            textos[0].text = "#" + posicionRanking; // Posición (ej: #1)
+                            textos[0].text = "#" + posicionRanking; // Posición
                             textos[1].text = s.name;               // Nombre
                             textos[2].text = s.score.ToString();   // Puntos
                         }
-                        // POR SI ACASO SOLO TIENES 2 TEXTOS (Para que no falle si no actualizas el prefab)
                         else if (textos.Length >= 2)
                         {
-                            textos[0].text = posicionRanking + ". " + s.name; // Juntamos número y nombre
+                            textos[0].text = posicionRanking + ". " + s.name; // Se junta número y nombre
                             textos[1].text = s.score.ToString();
                         }
 

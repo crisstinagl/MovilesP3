@@ -1,9 +1,8 @@
 using UnityEngine;
-using TMPro; // Necesario para usar la caja de texto
+using TMPro;
 
 public class NameManager : MonoBehaviour
 {
-    // Arrastra aquí tu InputField desde la jerarquía
     public TMP_InputField cajaDeTexto;
 
     void Start()
@@ -15,7 +14,6 @@ public class NameManager : MonoBehaviour
         }
     }
 
-    // Esta es la función que llamará la caja cada vez que escribas una letra
     public void ActualizarNombre(string nuevoNombre)
     {
         if (ScenesManager.Instance != null)

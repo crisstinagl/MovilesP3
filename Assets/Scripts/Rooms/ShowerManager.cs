@@ -20,8 +20,8 @@ public class ShowerManager : MonoBehaviour, IPointerDownHandler, IDragHandler, I
     public float umbralDucha = 0.5f;
 
     [Header("Referencias de Navegación")]
-    public RoomsNavigation roomsNavigation; // Referencia al script de navegación
-    private const int SHOWER_ROOM_INDEX = 1; // Índice de la habitación de la ducha
+    public RoomsNavigation roomsNavigation;
+    private const int SHOWER_ROOM_INDEX = 1;
 
     [Header("Sistema de Secado (Micrófono)")]
     [Tooltip("El audio source para reproducir y almacenar el clip del micrófono.")]

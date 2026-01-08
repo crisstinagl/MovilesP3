@@ -1,10 +1,11 @@
 using UnityEngine;
 
+// Clase encargada de la gestion de skins
 public class CatSkin : MonoBehaviour
 {
     [Header("Referencias Visuales")]
-    public SpriteRenderer rendererCara;  // Arrastra aquí el objeto hijo "RenderCara"
-    public SpriteRenderer rendererCuerpo; // Arrastra aquí el objeto hijo "Skin"
+    public SpriteRenderer rendererCara;
+    public SpriteRenderer rendererCuerpo;
 
     [Header("Configuración de Skins")]
     public Sprite skinPorDefecto;
@@ -43,7 +44,7 @@ public class CatSkin : MonoBehaviour
         if (tipo == "asco") rendererCara.sprite = caraAsco;
     }
 
-    // Función para volver a la normalidad tras un tiempo
+    // Funcion para volver a la normalidad tras un tiempo
     public void ResetearCara()
     {
         rendererCara.sprite = caraNormal;
