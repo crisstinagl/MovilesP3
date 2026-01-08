@@ -138,6 +138,18 @@ MonoBehaviour:
     m_Localized: "Tornar a comen\xE7ar"
     m_Metadata:
       m_Items: []
+  - m_Id: 3142318757044224
+    m_Localized: "Quin \xE9s el teu nom?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3142365510950912
+    m_Localized: Confirma
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3142380727885824
+    m_Localized: Introdueix el text...
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

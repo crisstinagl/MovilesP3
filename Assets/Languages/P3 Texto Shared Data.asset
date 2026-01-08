@@ -135,6 +135,18 @@ MonoBehaviour:
     m_Key: txt_Reintentar
     m_Metadata:
       m_Items: []
+  - m_Id: 3142318757044224
+    m_Key: txt_nombre
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3142365510950912
+    m_Key: txt_confirmar
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3142380727885824
+    m_Key: txt_introTexto
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:
