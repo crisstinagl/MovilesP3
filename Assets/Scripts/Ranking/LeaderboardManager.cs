@@ -36,7 +36,7 @@ public class LeaderboardManager : MonoBehaviour
         FirebaseApp.CheckAndFixDependenciesAsync().ContinueWithOnMainThread(task => {
             if (task.Result == DependencyStatus.Available)
             {
-                // Conexión exitosa
+                // Conexion exitosa
                 reference = FirebaseDatabase.GetInstance("https://miou-41221-default-rtdb.europe-west1.firebasedatabase.app/").RootReference;
                 Debug.Log("Firebase conectado correctamente");
             }
@@ -47,18 +47,18 @@ public class LeaderboardManager : MonoBehaviour
         });
     }
 
-    // --- VERIFICAR SI EL NOMBRE ESTÁ LIBRE ---
+    // --- VERIFICAR SI EL NOMBRE ESTA LIBRE ---
     public void VerificarNombreDisponible(string nombre, System.Action<bool> callback)
     {
         if (reference == null)
         {
-            callback(false); // Si no hay conexión, bloqueamos por seguridad
+            callback(false); // No hay conexion - se bloquea 
             return;
         }
 
         string miId = SystemInfo.deviceUniqueIdentifier;
 
-        // Buscamos en toda la base de datos si alguien tiene ese nombre
+        // Se busca en la base de datos si existe el nombre
         reference.Child("ranking").OrderByChild("name").EqualTo(nombre)
             .GetValueAsync().ContinueWithOnMainThread(task => {
 
@@ -91,28 +91,27 @@ public class LeaderboardManager : MonoBehaviour
             });
     }
 
-    // --- GUARDAR SOLO EL NOMBRE ---
+    // --- GUARDAR NOMBRE ---
     public void RegistrarNombre(string nombre)
     {
         if (reference == null) return;
         string userId = SystemInfo.deviceUniqueIdentifier;
 
-        // Actualizamos SOLAMENTE el campo 'name', sin borrar la puntuación ('score')
+        // Se actualiza solo el campo 'name', sin borrar la puntuacion ('score')
         reference.Child("ranking").Child(userId).Child("name").SetValueAsync(nombre);
     }
 
-    // --- GUARDAR PUNTUACIÓN ---
+    // --- GUARDAR PUNTUACION ---
     public void GuardarPuntuacion(string nombreUsuario, int nuevaPuntuacion)
     {
         if (reference == null) return;
 
-        // Usamos la ID del dispositivo para que el usuario sea UNICO
+        // Se usa la ID del dispositivo - usuario unico
         string userId = SystemInfo.deviceUniqueIdentifier;
 
-        // Referencia al nodo de este usuario específico
         DatabaseReference usuarioRef = reference.Child("ranking").Child(userId);
 
-        // LEEMOS LOS DATOS QUE YA EXISTEN
+        // Se leen los datos existentes
         usuarioRef.GetValueAsync().ContinueWithOnMainThread(task => {
             if (task.IsFaulted)
             {
@@ -171,7 +170,7 @@ public class LeaderboardManager : MonoBehaviour
         // Limpiar tabla vieja
         foreach (Transform child in contentTabla) Destroy(child.gameObject);
 
-        // Acceder a los 10 ultimos datos ordenados por puntuación en ascendente
+        // Acceder a los 10 ultimos datos ordenados por puntuacion en ascendente
         reference.Child("ranking").OrderByChild("score").LimitToLast(10)
             .GetValueAsync().ContinueWithOnMainThread(task => {
 
@@ -203,13 +202,13 @@ public class LeaderboardManager : MonoBehaviour
                         TMP_Text[] textos = nuevaFila.GetComponentsInChildren<TMP_Text>();
                         if (textos.Length >= 3)
                         {
-                            textos[0].text = "#" + posicionRanking; // Posición
+                            textos[0].text = "#" + posicionRanking; // Posicion
                             textos[1].text = s.name;               // Nombre
                             textos[2].text = s.score.ToString();   // Puntos
                         }
                         else if (textos.Length >= 2)
                         {
-                            textos[0].text = posicionRanking + ". " + s.name; // Se junta número y nombre
+                            textos[0].text = posicionRanking + ". " + s.name; // Se junta numero y nombre
                             textos[1].text = s.score.ToString();
                         }
 

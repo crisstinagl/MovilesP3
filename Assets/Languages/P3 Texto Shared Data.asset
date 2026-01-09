@@ -147,6 +147,14 @@ MonoBehaviour:
     m_Key: txt_introTexto
     m_Metadata:
       m_Items: []
+  - m_Id: 3545229806854144
+    m_Key: txt_introNombre
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3545231769788416
+    m_Key: txt_errorNombre
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

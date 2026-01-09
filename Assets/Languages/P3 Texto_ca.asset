@@ -150,6 +150,14 @@ MonoBehaviour:
     m_Localized: Introdueix el text...
     m_Metadata:
       m_Items: []
+  - m_Id: 3545229806854144
+    m_Localized: Introdueix un nom!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3545231769788416
+    m_Localized: "Aquest nom ja existeix. Si us plau, tria\xB4n un altre."
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

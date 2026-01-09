@@ -150,6 +150,14 @@ MonoBehaviour:
     m_Localized: Startu testua...
     m_Metadata:
       m_Items: []
+  - m_Id: 3545229806854144
+    m_Localized: Sartu izen bat!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3545231769788416
+    m_Localized: Izena hori jada badago. Mesedez, aukeratu beste bat.
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

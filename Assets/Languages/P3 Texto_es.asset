@@ -150,6 +150,14 @@ MonoBehaviour:
     m_Localized: Introducir texto...
     m_Metadata:
       m_Items: []
+  - m_Id: 3545229806854144
+    m_Localized: "\xA1Escribe un nombre!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3545231769788416
+    m_Localized: Ese nombre ya existe. Elige otro.
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

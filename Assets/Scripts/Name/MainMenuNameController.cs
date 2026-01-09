@@ -1,6 +1,7 @@
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using UnityEngine.Localization.Settings;
 
 public class MainMenuNameController : MonoBehaviour
 {
@@ -24,12 +25,11 @@ public class MainMenuNameController : MonoBehaviour
         }
     }
 
-    // Función para el botón "Cambiar Nombre" del menú
+    // Función para el boton "Cambiar Nombre"
     public void AbrirPanel()
     {
         panelNombre.SetActive(true);
 
-        // Rellenar el input con el nombre que ya tiene (para editarlo)
         if (ScenesManager.Instance != null)
         {
             inputNombre.text = ScenesManager.Instance.nombreJugador;
@@ -37,55 +37,53 @@ public class MainMenuNameController : MonoBehaviour
         if (textoError != null) textoError.text = "";
     }
 
-    // Función para el botón "Confirmar" dentro del panel
+    // Funcion para el boton "Confirmar"
     public void ConfirmarNombre()
     {
+        inputNombre.image.color = Color.white;
         string nombreEscrito = inputNombre.text;
+        string tabla = "P3 Texto";
 
-        // 1. Validar vacío
         if (string.IsNullOrWhiteSpace(nombreEscrito))
         {
-            MostrarError("¡Escribe un nombre!");
+            string msgVacio = LocalizationSettings.StringDatabase.GetLocalizedString(tabla, "txt_introNombre");
+            MostrarError(msgVacio); 
             return;
         }
 
-        // 2. Desactivar botón para que no le den dos veces mientras carga
         if (botonConfirmar != null) botonConfirmar.interactable = false;
 
-        // 3. CONSULTAR A LEADERBOARD MANAGER
+        // CONSULTAR A LEADERBOARD MANAGER
         if (LeaderboardManager.Instance != null)
         {
             LeaderboardManager.Instance.VerificarNombreDisponible(nombreEscrito, (esValido) => {
 
-                // Reactivamos botón por si hay que reintentar
                 if (botonConfirmar != null) botonConfirmar.interactable = true;
 
                 if (esValido)
                 {
-                    // ¡NOMBRE VÁLIDO!
-                    // a) Lo reservamos en la nube YA MISMO
+                    // Nombre valido - guardar
                     LeaderboardManager.Instance.RegistrarNombre(nombreEscrito);
 
-                    // b) Lo guardamos en el móvil
                     if (ScenesManager.Instance != null)
                     {
                         ScenesManager.Instance.nombreJugador = nombreEscrito;
                         ScenesManager.Instance.SaveSettings();
                     }
 
-                    // c) Cerramos
                     panelNombre.SetActive(false);
                 }
                 else
                 {
-                    // ¡NOMBRE OCUPADO!
-                    MostrarError("Ese nombre ya existe. Elige otro.");
+                    // Nombre no valido - mostrar error
+                    string msgDuplicado = LocalizationSettings.StringDatabase.GetLocalizedString(tabla, "txt_errorNombre");
+                    MostrarError(msgDuplicado);
                 }
             });
         }
         else
         {
-            // Si estamos jugando offline (sin el manager), guardamos y ya
+            // offline - guardar
             if (ScenesManager.Instance != null)
             {
                 ScenesManager.Instance.nombreJugador = nombreEscrito;
@@ -101,6 +99,11 @@ public class MainMenuNameController : MonoBehaviour
         {
             textoError.text = mensaje;
             textoError.color = Color.red;
+
+            if (ScenesManager.Instance != null)
+            {
+                ScenesManager.Instance.UpdateText(textoError);
+            }
         }
         else
         {
