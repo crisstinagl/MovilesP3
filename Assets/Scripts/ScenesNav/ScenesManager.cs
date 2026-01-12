@@ -79,12 +79,6 @@ public class ScenesManager : MonoBehaviour
         ApplyChanges();
     }
 
-    IEnumerator WaitAndApply()
-    {
-        yield return null; // Espera 1 frame
-        ApplyChanges();
-    }
-
     public void AddCoins(int amount)
     {
         monedas += amount;
@@ -263,8 +257,6 @@ public class ScenesManager : MonoBehaviour
             if (t != null) t.text = monedas.ToString();
         }
     }
-
-    // --- AQUÍ ESTÁ EL ARREGLO DE LAS BARRAS DE NECESIDADES ---
     public void RefreshNeedsUI()
     {
         GameObject funBar = GameObject.FindWithTag("BarraFun");
@@ -275,6 +267,26 @@ public class ScenesManager : MonoBehaviour
 
             Slider sld = funBar.GetComponent<Slider>();
             if (sld != null) sld.value = fun;
+        }
+
+        GameObject hungerBar = GameObject.FindWithTag("BarraHambre");
+        if (hungerBar != null)
+        {
+            Image img = hungerBar.GetComponent<Image>();
+            if (img != null) img.fillAmount = hunger;
+
+            Slider sld = hungerBar.GetComponent<Slider>();
+            if (sld != null) sld.value = hunger;
+        }
+
+        GameObject hygieneBar = GameObject.FindWithTag("BarraHigiene");
+        if (hygieneBar != null)
+        {
+            Image img = hygieneBar.GetComponent<Image>();
+            if (img != null) img.fillAmount = hygiene;
+
+            Slider sld = hygieneBar.GetComponent<Slider>();
+            if (sld != null) sld.value = hygiene;
         }
     }
 
@@ -297,6 +309,7 @@ public class ScenesManager : MonoBehaviour
     // Funcion para cambiar de escena
     public void ChangeScene(string nombre)
     {
+        SaveSettings();
         fontsMemory.Clear();
         SceneManager.LoadScene(nombre);
     }
@@ -329,5 +342,15 @@ public class ScenesManager : MonoBehaviour
 
         SaveSettings();
         RefreshNeedsUI();
+    }
+
+    private void OnApplicationQuit()
+    {
+        SaveSettings();
+    }
+
+    private void OnApplicationPause(bool pause)
+    {
+        if (pause) SaveSettings();
     }
 }

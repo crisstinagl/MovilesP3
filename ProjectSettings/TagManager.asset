@@ -8,6 +8,8 @@ TagManager:
   - FiltroColor
   - MonedasText
   - BarraFun
+  - BarraHambre
+  - BarraHigiene
   layers:
   - Default
   - TransparentFX

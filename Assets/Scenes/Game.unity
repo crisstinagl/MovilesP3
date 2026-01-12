@@ -1882,7 +1882,7 @@ GameObject:
   - component: {fileID: 226951005}
   m_Layer: 5
   m_Name: Shower_Slider
-  m_TagString: Untagged
+  m_TagString: BarraHigiene
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2006,7 +2006,7 @@ MonoBehaviour:
     m_NumAlphaKeys: 2
   objetoSuciedad: {fileID: 1525525179}
   suciedadImage: {fileID: 1525525180}
-  idGuardado: HigieneValue
+  idGuardado: Higiene
   velocidadDescenso: 0.01
 --- !u!1 &228100137
 GameObject:
@@ -4248,7 +4248,7 @@ GameObject:
   - component: {fileID: 412080455}
   m_Layer: 5
   m_Name: Food_Slider
-  m_TagString: Untagged
+  m_TagString: BarraHambre
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4372,7 +4372,7 @@ MonoBehaviour:
     m_NumAlphaKeys: 2
   objetoSuciedad: {fileID: 0}
   suciedadImage: {fileID: 0}
-  idGuardado: HambreValue
+  idGuardado: Hambre
   velocidadDescenso: 0.01
 --- !u!1 &423823104
 GameObject:
