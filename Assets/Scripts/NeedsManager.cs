@@ -10,6 +10,7 @@ public class NeedsManager : MonoBehaviour
 
     [Header("Sistema de Suciedad (Solo para Higiene)")]
     public GameObject objetoSuciedad;
+    public Image suciedadImage;
 
     [Header("Identificador Único")]
     [Tooltip("IMPORTANTE: Usa 'Hambre', 'Higiene', 'Sueño' o 'Entretenimiento'")]
@@ -79,17 +80,23 @@ public class NeedsManager : MonoBehaviour
     {
         if (objetoSuciedad == null) return;
 
-        bool estaSucio = slider.value <= 0;
+        float valorNormalizado = slider.value / slider.maxValue;
+        float opacidad = 1f - valorNormalizado;
 
-        // Solo cambiamos si el estado es diferente para no parpadear
-        if (objetoSuciedad.activeSelf != estaSucio)
+        if (suciedadImage != null)
         {
-            objetoSuciedad.SetActive(estaSucio);
-            if (ScenesManager.Instance != null)
-            {
-                ScenesManager.Instance.isDirty = estaSucio;
-            }
+            Color c = suciedadImage.color;
+            c.a = opacidad;
+            suciedadImage.color = c;
         }
+
+        bool estaSucio = slider.value <= 0.1f;
+        if (ScenesManager.Instance != null && ScenesManager.Instance.isDirty != estaSucio)
+        {
+            ScenesManager.Instance.isDirty = estaSucio;
+        }
+
+        objetoSuciedad.SetActive(opacidad > 0.01f);
     }
 
     void OnDestroy()

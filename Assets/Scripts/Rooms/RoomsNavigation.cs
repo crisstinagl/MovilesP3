@@ -39,8 +39,6 @@ public class RoomsNavigation : MonoBehaviour, IEndDragHandler, IBeginDragHandler
                 if (bedroomScript != null) bedroomScript.DespertarForzado();
             }
         }
-
-        Debug.Log(indexHabitacion);
     }
 
     public void OnBeginDrag(PointerEventData eventData) => swiping = true;
