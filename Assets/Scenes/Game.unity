@@ -8467,8 +8467,11 @@ MonoBehaviour:
   higieneManager: {fileID: 226951005}
   higieneID: HigieneValue
   imagenMojado: {fileID: 626748227}
-  esponjaRect: {fileID: 1136519680}
-  duchaRect: {fileID: 1949968502}
+  duchaRect: {fileID: 1136519680}
+  esponjaRect: {fileID: 1949968502}
+  duchaImage: {fileID: 1136519681}
+  duchaActivaSprite: {fileID: 21300000, guid: 2f20b8a818d7c654daed4d6d3b1b3430, type: 3}
+  duchaApagadaSprite: {fileID: 21300000, guid: c54d3ed63aa31554aad957c27e039041, type: 3}
   burbujas:
   - {fileID: 913955790}
   - {fileID: 1657063063}

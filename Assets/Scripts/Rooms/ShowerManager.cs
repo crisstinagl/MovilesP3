@@ -11,8 +11,13 @@ public class ShowerManager : MonoBehaviour, IPointerDownHandler, IDragHandler, I
     public Image imagenMojado;
 
     [Header("Efectos Visuales (UI)")]
-    public RectTransform esponjaRect;
     public RectTransform duchaRect;
+    public RectTransform esponjaRect;
+
+    [Header("Configuración de Sprites Ducha")]
+    public Image duchaImage;
+    public Sprite duchaActivaSprite;
+    public Sprite duchaApagadaSprite;
 
     [Header("Sistema de Burbujas")]
     public RectTransform[] burbujas;
@@ -44,7 +49,7 @@ public class ShowerManager : MonoBehaviour, IPointerDownHandler, IDragHandler, I
     void Start()
     {
         parentCanvas = GetComponentInParent<Canvas>();
-        if (esponjaRect != null) posicionBaseHerramienta = esponjaRect.localPosition;
+        if (duchaRect != null) posicionBaseHerramienta = duchaRect.localPosition;
         if (imagenMojado != null) SetImageAlpha(imagenMojado, 0);
         foreach (var b in burbujas) b.gameObject.SetActive(false);
 
@@ -74,10 +79,25 @@ public class ShowerManager : MonoBehaviour, IPointerDownHandler, IDragHandler, I
 
         CheckAndSwitchTool(false);
         ManejarHumedadYSecado();
+        ActualizarVisualDucha();
 
         if (!estaFrotando && herramientaActiva != null)
         {
             herramientaActiva.localPosition = Vector2.Lerp(herramientaActiva.localPosition, posicionBaseHerramienta, Time.deltaTime * 5f);
+        }
+    }
+
+    private void ActualizarVisualDucha()
+    {
+        if (duchaImage == null || duchaActivaSprite == null || duchaApagadaSprite == null) return;
+
+        if (herramientaActiva == duchaRect && estaFrotando)
+        {
+            duchaImage.sprite = duchaActivaSprite;
+        }
+        else
+        {
+            duchaImage.sprite = duchaApagadaSprite;
         }
     }
 
@@ -94,7 +114,7 @@ public class ShowerManager : MonoBehaviour, IPointerDownHandler, IDragHandler, I
             }
         }
 
-        if (estaFrotando && herramientaActiva == esponjaRect)
+        if (estaFrotando && herramientaActiva == duchaRect)
         {
             nivelHumedad = Mathf.Min(1, nivelHumedad + delta);
         }
@@ -136,11 +156,11 @@ public class ShowerManager : MonoBehaviour, IPointerDownHandler, IDragHandler, I
     {
         if (burbujas == null || burbujas.Length == 0) return;
 
-        if (herramientaActiva == duchaRect)
+        if (herramientaActiva == esponjaRect)
         {
             burbujasVisibles += Time.deltaTime * velocidadAparicionBurbujas;
         }
-        else if (herramientaActiva == esponjaRect)
+        else if (herramientaActiva == duchaRect)
         {
             burbujasVisibles -= Time.deltaTime * velocidadAparicionBurbujas * 1.5f;
         }
@@ -164,12 +184,12 @@ public class ShowerManager : MonoBehaviour, IPointerDownHandler, IDragHandler, I
         float progreso = higieneManager.slider.value / higieneManager.slider.maxValue;
         RectTransform herramientaAnterior = herramientaActiva;
 
-        herramientaActiva = (progreso < umbralDucha) ? duchaRect : esponjaRect;
+        herramientaActiva = (progreso < umbralDucha) ? esponjaRect : duchaRect;
 
         if (herramientaAnterior != herramientaActiva || inicializar)
         {
-            if (esponjaRect != null) esponjaRect.gameObject.SetActive(herramientaActiva == esponjaRect);
             if (duchaRect != null) duchaRect.gameObject.SetActive(herramientaActiva == duchaRect);
+            if (esponjaRect != null) esponjaRect.gameObject.SetActive(herramientaActiva == esponjaRect);
 
             if (!estaFrotando && herramientaActiva != null)
                 herramientaActiva.localPosition = posicionBaseHerramienta;
@@ -179,8 +199,8 @@ public class ShowerManager : MonoBehaviour, IPointerDownHandler, IDragHandler, I
     private void OcultarHerramientas()
     {
         estaFrotando = false;
-        if (esponjaRect != null) esponjaRect.gameObject.SetActive(false);
         if (duchaRect != null) duchaRect.gameObject.SetActive(false);
+        if (esponjaRect != null) esponjaRect.gameObject.SetActive(false);
     }
 
     void ActualizarPosicionUI(PointerEventData eventData)
