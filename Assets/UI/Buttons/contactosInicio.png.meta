@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 24c90d7e1c38f3b409a45f4eb38a354a
+guid: 21d8b74d7b6277d4e8c5bb907edb72c2
 TextureImporter:
   internalIDToNameTable:
   - first:
@@ -132,8 +132,8 @@ TextureImporter:
       name: contactosInicio_0
       rect:
         serializedVersion: 2
-        x: 183
-        y: 205
+        x: 23
+        y: 85
         width: 133
         height: 205
       alignment: 0
@@ -154,8 +154,8 @@ TextureImporter:
       name: contactosInicio_1
       rect:
         serializedVersion: 2
-        x: 211
-        y: 153
+        x: 51
+        y: 33
         width: 37
         height: 42
       alignment: 0

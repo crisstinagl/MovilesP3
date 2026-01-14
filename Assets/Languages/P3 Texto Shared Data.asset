@@ -155,6 +155,14 @@ MonoBehaviour:
     m_Key: txt_errorNombre
     m_Metadata:
       m_Items: []
+  - m_Id: 5345549402824704
+    m_Key: title_tutorial
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5345573792702464
+    m_Key: txt_tutorial
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

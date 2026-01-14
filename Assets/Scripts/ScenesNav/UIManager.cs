@@ -9,6 +9,7 @@ public class UIManager : MonoBehaviour
 	public GameObject panelRanking;
 	public GameObject panelPausa;
 	public GameObject panelShop;
+	public GameObject panelTutorial;
 
 	// Abrir/Cerrar el panel de ajustes
 	public void OpenSettings() => panelAjustes.SetActive(true);
@@ -21,6 +22,10 @@ public class UIManager : MonoBehaviour
     // Abrir/Cerrar el panel de tienda
     public void OpenShop() => panelShop.SetActive(true);
 	public void CloseShop() => panelShop.SetActive(false);
+
+    // Abrir/Cerrar el panel de tutorial
+    public void OpenTutorial() => panelTutorial.SetActive(true);
+    public void CloseTutorial() => panelTutorial.SetActive(false);
 
     // Alternar el panel de pausa
     public void TogglePauseMenu()

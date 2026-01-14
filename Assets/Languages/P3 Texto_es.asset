@@ -158,6 +158,15 @@ MonoBehaviour:
     m_Localized: Ese nombre ya existe. Elige otro.
     m_Metadata:
       m_Items: []
+  - m_Id: 5345549402824704
+    m_Localized: "\xBFC\xF3mo ba\xF1arlo?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5345573792702464
+    m_Localized: "1. Limpia con el jab\xF3n.\n2. Aclara con la ducha.\n3. Sopla para
+      secarlo."
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

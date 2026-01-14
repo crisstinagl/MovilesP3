@@ -10,7 +10,9 @@ public class RoomsNavigation : MonoBehaviour, IEndDragHandler, IBeginDragHandler
     public RectTransform content;
     public int roomsNum = 4;
     public BedroomManager bedroomScript;
-    public int indexHabitacion = 0; // Índice de la habitación actual (0-based)
+    public int indexHabitacion = 0; // Índice habitacion actual (0-3)
+    public GameObject botonTutorialDucha;
+    public int indexDucha = 1;
 
     private float targetRoom;
     private bool swiping = false;
@@ -33,10 +35,15 @@ public class RoomsNavigation : MonoBehaviour, IEndDragHandler, IBeginDragHandler
             scrollRect.horizontalNormalizedPosition = Mathf.Lerp(scrollRect.horizontalNormalizedPosition, targetRoom, Time.deltaTime * 10f);
 
             float distanciaALaHabitacion = Mathf.Abs(scrollRect.horizontalNormalizedPosition - roomsPositions[indexHabitacion]);
-
             if (distanciaALaHabitacion > 0.1f)
             {
                 if (bedroomScript != null) bedroomScript.DespertarForzado();
+            }
+
+            float distanciaBAseo = Mathf.Abs(scrollRect.horizontalNormalizedPosition - roomsPositions[indexDucha]);
+            if (botonTutorialDucha != null)
+            {
+                botonTutorialDucha.SetActive(distanciaBAseo < 0.1f);
             }
         }
     }
