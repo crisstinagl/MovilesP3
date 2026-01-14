@@ -106,22 +106,32 @@ public class NeedsManager : MonoBehaviour
         if (objetoSuciedad == null) return;
 
         float valorNormalizado = slider.value / slider.maxValue;
-        float opacidad = 1f - valorNormalizado;
+        float opacidad = 0f;
 
+        if (valorNormalizado < 0.5f)
+        {
+            opacidad = (0.5f - valorNormalizado) * 2f; // Suciedad gradual
+        }
+        else
+        {
+            opacidad = 0f; // Suciedad invisible
+        }
+
+        // Imagen suciedad
         if (suciedadImage != null)
         {
             Color c = suciedadImage.color;
-            c.a = opacidad;
+            c.a = Mathf.Clamp01(opacidad);
             suciedadImage.color = c;
         }
 
+        objetoSuciedad.SetActive(opacidad > 0.01f);
         bool estaSucio = slider.value <= 0.1f;
+
         if (ScenesManager.Instance != null && ScenesManager.Instance.isDirty != estaSucio)
         {
             ScenesManager.Instance.isDirty = estaSucio;
         }
-
-        objetoSuciedad.SetActive(opacidad > 0.01f);
     }
 
     void OnDestroy()
