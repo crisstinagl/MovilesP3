@@ -75,7 +75,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 303230278492160
-    m_Localized: 'Hizkuntza:'
+    m_Localized: 'Idioma:'
     m_Metadata:
       m_Items: []
   - m_Id: 303247890374656
@@ -87,7 +87,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 305753546612736
-    m_Localized: Inork
+    m_Localized: "Ning\xFA"
     m_Metadata:
       m_Items: []
   - m_Id: 305773096263680
@@ -156,6 +156,15 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 3545231769788416
     m_Localized: "Aquest nom ja existeix. Si us plau, tria\xB4n un altre."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5345549402824704
+    m_Localized: Com banyar-lo?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5345573792702464
+    m_Localized: "1. Neteja'l amb sab\xF3.\n2. Esbandeix-lo amb la dutxa.\n3. Asseca'l
+      amb l'assecador."
     m_Metadata:
       m_Items: []
   references:

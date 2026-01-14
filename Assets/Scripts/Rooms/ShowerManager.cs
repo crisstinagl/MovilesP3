@@ -39,6 +39,10 @@ public class ShowerManager : MonoBehaviour, IPointerDownHandler, IDragHandler, I
     private string microfono;
     private const int SAMPLE_WINDOW = 128;
 
+    [Header("Sonidos de Limpieza")]
+    public AudioClip sonidoBurbujas;
+    public AudioClip sonidoAgua;
+
     private bool estaFrotando = false;
     private RectTransform herramientaActiva;
     private Vector2 posicionBaseHerramienta;
@@ -84,6 +88,38 @@ public class ShowerManager : MonoBehaviour, IPointerDownHandler, IDragHandler, I
         if (!estaFrotando && herramientaActiva != null)
         {
             herramientaActiva.localPosition = Vector2.Lerp(herramientaActiva.localPosition, posicionBaseHerramienta, Time.deltaTime * 5f);
+        }
+
+        ManejarSonidos();
+    }
+
+    private void ManejarSonidos()
+    {
+        if (ScenesManager.Instance == null || ScenesManager.Instance.uiSource == null) return;
+
+        AudioSource audio = ScenesManager.Instance.uiSource;
+
+        if (estaFrotando && IsInShowerRoom())
+        {
+            AudioClip clipNecesario = (herramientaActiva == esponjaRect) ? sonidoBurbujas : sonidoAgua;
+
+            // Reproducir
+            if (audio.clip != clipNecesario)
+            {
+                audio.clip = clipNecesario;
+                audio.loop = true;
+                audio.Play();
+            }
+
+            if (!audio.isPlaying) audio.Play();
+        }
+        else
+        {
+            if (audio.isPlaying && (audio.clip == sonidoBurbujas || audio.clip == sonidoAgua))
+            {
+                audio.Stop();
+                audio.loop = false;
+            }
         }
     }
 
@@ -149,6 +185,17 @@ public class ShowerManager : MonoBehaviour, IPointerDownHandler, IDragHandler, I
     public void OnPointerUp(PointerEventData eventData)
     {
         estaFrotando = false;
+
+        if (ScenesManager.Instance != null && ScenesManager.Instance.uiSource != null)
+        {
+            AudioSource audio = ScenesManager.Instance.uiSource;
+            if (audio.clip == sonidoBurbujas || audio.clip == sonidoAgua)
+            {
+                audio.Stop();
+                audio.loop = false;
+            }
+        }
+
         if (higieneManager != null) higieneManager.GuardarDatos();
     }
 

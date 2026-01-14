@@ -158,6 +158,19 @@ MonoBehaviour:
     m_Localized: "Questo nome esiste gi\xE0. Scegline un altro."
     m_Metadata:
       m_Items: []
+  - m_Id: 5345549402824704
+    m_Localized: Come fare il bagno?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5345573792702464
+    m_Localized: '1. Lavalo con il sapone.
+
+      2. Risciacqualo con la doccia.
+
+      3.
+      Asciugalo con una asciugacapelli.'
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

@@ -16,7 +16,7 @@ public class BedroomManager : MonoBehaviour
 
     [Header("Lógica de Sueño")]
     public NeedsManager managerSueño;
-    public float velocidadRecuperacion = 0.05f;
+    public float velocidadRecuperacion = 0.02f;
 
     private bool estaDurmiendo = false;
 

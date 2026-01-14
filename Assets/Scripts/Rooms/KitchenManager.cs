@@ -24,6 +24,9 @@ public class KitchenManager : MonoBehaviour
     [Range(0f, 1f)]
     public float cantidadHambrePorComida = 0.4f;
 
+    [Header("Sonido")]
+    public AudioClip sonidoMasticar;
+
     private int indiceComida = 0;
     private Vector2 posicionOriginal;
     private Canvas parentCanvas;
@@ -104,6 +107,11 @@ public class KitchenManager : MonoBehaviour
     {
         if (hungerManager != null && hungerManager.slider != null)
         {
+            if (ScenesManager.Instance != null && ScenesManager.Instance.uiSource != null && sonidoMasticar != null)
+            {
+                ScenesManager.Instance.uiSource.PlayOneShot(sonidoMasticar);
+            }
+
             float cantidadReal = hungerManager.slider.maxValue * cantidadHambrePorComida;
             hungerManager.slider.value = Mathf.Min(
                 hungerManager.slider.value + cantidadReal,

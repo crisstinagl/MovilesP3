@@ -33,7 +33,7 @@ public class NeedsManager : MonoBehaviour
             {
                 bool estabaDormido = PlayerPrefs.GetInt("EstaDurmiendo", 0) == 1;
 
-                if (estabaDormido) slider.value += segundosFuera * 0.005f; // Subir valor
+                if (estabaDormido) slider.value += segundosFuera * 0.00002f; // Subir valor
                 else slider.value -= segundosFuera * velocidadDescenso; // Restar valor
             }
             else // Resto de necesidades

@@ -158,6 +158,19 @@ MonoBehaviour:
     m_Localized: That name already exists. Please choose another one.
     m_Metadata:
       m_Items: []
+  - m_Id: 5345549402824704
+    m_Localized: How to bathe him?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5345573792702464
+    m_Localized: '1. Clean him with soap.
+
+      2. Rinse him with the shower.
+
+      3.
+      Blow dry him.'
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

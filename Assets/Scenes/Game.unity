@@ -1691,6 +1691,7 @@ MonoBehaviour:
   areaBocaGato: {fileID: 2046651615}
   hungerManager: {fileID: 412080455}
   cantidadHambrePorComida: 0.15
+  sonidoMasticar: {fileID: 8300000, guid: 1baacb96e2254ed49a4e41438d9299ac, type: 3}
   estaTocandoBoca: 0
 --- !u!1 &219892361
 GameObject:
@@ -8841,6 +8842,8 @@ MonoBehaviour:
   roomsNavigation: {fileID: 1948658280}
   audioSource: {fileID: 922458550}
   umbralSoplido: 0.4
+  sonidoBurbujas: {fileID: 8300000, guid: 93c45c4555371054883a679290248c55, type: 3}
+  sonidoAgua: {fileID: 8300000, guid: 0c0b77cbc3d82f4479ca1d0e606e5562, type: 3}
 --- !u!82 &922458550
 AudioSource:
   m_ObjectHideFlags: 0

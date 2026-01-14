@@ -309,7 +309,11 @@ public class ScenesManager : MonoBehaviour
 
     public void PlayClickSound()
     {
-        if (uiSource != null && sonidoClick != null) uiSource.PlayOneShot(sonidoClick);
+        if (uiSource != null && sonidoClick != null)
+        {
+            uiSource.loop = false;
+            uiSource.PlayOneShot(sonidoClick);
+        }
     }
 
     // Funcion para cambiar de escena

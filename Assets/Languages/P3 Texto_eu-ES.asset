@@ -83,7 +83,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 303230278492160
-    m_Localized: 'Idioma:'
+    m_Localized: 'Hizkuntza:'
     m_Metadata:
       m_Items: []
   - m_Id: 305773096263680
@@ -99,7 +99,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 305753546612736
-    m_Localized: "Ning\xFA"
+    m_Localized: Inork
     m_Metadata:
       m_Items: []
   - m_Id: 1072152178204672
@@ -156,6 +156,19 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 3545231769788416
     m_Localized: Izena hori jada badago. Mesedez, aukeratu beste bat.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5345549402824704
+    m_Localized: Nola bainatu?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5345573792702464
+    m_Localized: '1. Garbitu xaboiarekin.
+
+      2. Xubatu dutxarekin.
+
+      3.
+      Lehortu ile-lehorgailuarekin.'
     m_Metadata:
       m_Items: []
   references:

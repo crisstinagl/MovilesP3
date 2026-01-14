@@ -34,7 +34,6 @@ public class UIManager : MonoBehaviour
 		{
 			bool pause = !panelPausa.activeSelf;
 			panelPausa.SetActive(pause);
-			Time.timeScale = pause ? 0 : 1;
 			if (ScenesManager.Instance.musicaSource != null)
 				ScenesManager.Instance.musicaSource.volume = pause ? 0.2f : ScenesManager.Instance.actualVol;
 		}
