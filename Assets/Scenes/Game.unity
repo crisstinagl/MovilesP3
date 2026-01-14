@@ -15973,7 +15973,7 @@ MonoBehaviour:
     m_NumAlphaKeys: 2
   objetoSuciedad: {fileID: 0}
   suciedadImage: {fileID: 0}
-  idGuardado: "Sue\xF1oValue"
+  idGuardado: Sueno
   velocidadDescenso: 0.0016
 --- !u!1 &1685133384
 GameObject:

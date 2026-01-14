@@ -33,7 +33,7 @@ public class NeedsManager : MonoBehaviour
             {
                 bool estabaDormido = PlayerPrefs.GetInt("EstaDurmiendo", 0) == 1;
 
-                if (estabaDormido) slider.value += segundosFuera * 0.05f; // Subir valor
+                if (estabaDormido) slider.value += segundosFuera * 0.005f; // Subir valor
                 else slider.value -= segundosFuera * velocidadDescenso; // Restar valor
             }
             else // Resto de necesidades
@@ -74,6 +74,14 @@ public class NeedsManager : MonoBehaviour
 
         // Chequeo constante de suciedad si es la barra de higiene
         if (objetoSuciedad != null) ActualizarSuciedadVisual();
+    }
+
+    private void OnApplicationPause(bool pause)
+    {
+        if (pause)
+        {
+            GuardarDatos();
+        }
     }
 
     void CargarEstadoInicial()
