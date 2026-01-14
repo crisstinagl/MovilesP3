@@ -120,7 +120,7 @@ public class CatController : MonoBehaviour
         if (ScenesManager.Instance != null)
         {
             ScenesManager.Instance.AddCoins(monedasGanadas);
-            float cantidadASubir = puntos / 500f;
+            float cantidadASubir = puntos / 200f;
             ScenesManager.Instance.SubirEntretenimiento(cantidadASubir);
             ScenesManager.Instance.isDirty = true;
             ScenesManager.Instance.hygiene -= 0.3f;
