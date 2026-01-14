@@ -14,6 +14,7 @@ public class ScenesManager : MonoBehaviour
     public float hunger = 1.0f;
     public float hygiene = 1.0f;
     public float fun = 1.0f;
+    public float sleep = 1.0f;
 
     [Header("Ajustes de Audio")]
     public AudioSource musicaSource;
@@ -144,9 +145,11 @@ public class ScenesManager : MonoBehaviour
             foreach (var id in ids) skinsCompradas.Add(int.Parse(id));
         }
 
+        // Necesidades
         hunger = PlayerPrefs.GetFloat("HambreValue", 1.0f);
         hygiene = PlayerPrefs.GetFloat("HigieneValue", 1.0f);
         fun = PlayerPrefs.GetFloat("Entretenimiento", 1.0f);
+        sleep = PlayerPrefs.GetFloat("SuenoValue", 1.0f);
     }
 
     public void SaveSettings()
@@ -172,9 +175,11 @@ public class ScenesManager : MonoBehaviour
         PlayerPrefs.SetString("SkinsPoseidas", string.Join(",", skinsCompradas));
         PlayerPrefs.SetInt("EstaSucio", isDirty ? 1 : 0);
 
+        // Necesidades
         PlayerPrefs.SetFloat("HambreValue", hunger);
         PlayerPrefs.SetFloat("HigieneValue", hygiene);
         PlayerPrefs.SetFloat("Entretenimiento", fun);
+        PlayerPrefs.SetFloat("SuenoValue", sleep);
 
         PlayerPrefs.Save();
     }

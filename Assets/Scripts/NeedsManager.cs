@@ -17,7 +17,7 @@ public class NeedsManager : MonoBehaviour
     public string idGuardado;
 
     [Header("Ajustes de Tiempo")]
-    public float velocidadDescenso = 0.01f;
+    public float velocidadDescenso = 0.001f; // Predeterminado
 
     void Start()
     {
@@ -33,6 +33,9 @@ public class NeedsManager : MonoBehaviour
                     break;
                 case "Entretenimiento":
                     slider.value = ScenesManager.Instance.fun;
+                    break;
+                case "Sueno":
+                    slider.value = ScenesManager.Instance.sleep;
                     break;
                 default:
                     if (PlayerPrefs.HasKey(idGuardado))
@@ -64,10 +67,11 @@ public class NeedsManager : MonoBehaviour
                 case "Hambre": ScenesManager.Instance.hunger = slider.value; break;
                 case "Higiene": ScenesManager.Instance.hygiene = slider.value; break;
                 case "Entretenimiento": ScenesManager.Instance.fun = slider.value; break;
+                case "Sueno": ScenesManager.Instance.sleep = slider.value; break;
             }
         }
 
-        // Color y Gráficos
+        // Color y graficos
         float valorNormalizado = slider.value / slider.maxValue;
         fillImage.color = gradiente.Evaluate(valorNormalizado);
         fillImage.fillAmount = valorNormalizado;

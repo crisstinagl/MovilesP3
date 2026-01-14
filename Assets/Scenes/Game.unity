@@ -2007,7 +2007,7 @@ MonoBehaviour:
   objetoSuciedad: {fileID: 1525525179}
   suciedadImage: {fileID: 1525525180}
   idGuardado: Higiene
-  velocidadDescenso: 0.01
+  velocidadDescenso: 0.0023
 --- !u!1 &228100137
 GameObject:
   m_ObjectHideFlags: 0
@@ -4373,7 +4373,7 @@ MonoBehaviour:
   objetoSuciedad: {fileID: 0}
   suciedadImage: {fileID: 0}
   idGuardado: Hambre
-  velocidadDescenso: 0.01
+  velocidadDescenso: 0.0033
 --- !u!1 &423823104
 GameObject:
   m_ObjectHideFlags: 0
@@ -11998,7 +11998,7 @@ MonoBehaviour:
   objetoSuciedad: {fileID: 0}
   suciedadImage: {fileID: 0}
   idGuardado: Entretenimiento
-  velocidadDescenso: 0.01
+  velocidadDescenso: 0.0033
 --- !u!1 &1236842203
 GameObject:
   m_ObjectHideFlags: 0
@@ -15132,7 +15132,7 @@ MonoBehaviour:
   objetoSuciedad: {fileID: 0}
   suciedadImage: {fileID: 0}
   idGuardado: "Sue\xF1oValue"
-  velocidadDescenso: 0.01
+  velocidadDescenso: 0.0016
 --- !u!1 &1685133384
 GameObject:
   m_ObjectHideFlags: 0
@@ -15354,7 +15354,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 74.1
+  m_fontSize: 72.3
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -17944,7 +17944,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 74
+  m_fontSize: 72.1
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
