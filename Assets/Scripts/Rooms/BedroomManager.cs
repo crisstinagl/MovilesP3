@@ -22,8 +22,7 @@ public class BedroomManager : MonoBehaviour
 
     void Start()
     {
-        // Empieza despierto
-        estaDurmiendo = false;
+        estaDurmiendo = PlayerPrefs.GetInt("EstaDurmiendo", 0) == 1;
         ActualizarVisuales();
     }
 
@@ -44,6 +43,9 @@ public class BedroomManager : MonoBehaviour
 
     void ActualizarVisuales()
     {
+        PlayerPrefs.SetInt("EstaDurmiendo", estaDurmiendo ? 1 : 0);
+        PlayerPrefs.Save();
+
         if (estaDurmiendo)
         {
             // Estado DORMIDO

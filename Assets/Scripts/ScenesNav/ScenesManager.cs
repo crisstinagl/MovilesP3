@@ -180,6 +180,7 @@ public class ScenesManager : MonoBehaviour
         PlayerPrefs.SetFloat("HigieneValue", hygiene);
         PlayerPrefs.SetFloat("Entretenimiento", fun);
         PlayerPrefs.SetFloat("SuenoValue", sleep);
+        PlayerPrefs.SetString("UltimaVez", System.DateTime.Now.ToString()); 
 
         PlayerPrefs.Save();
     }

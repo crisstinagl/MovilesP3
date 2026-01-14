@@ -13,7 +13,6 @@ public class NeedsManager : MonoBehaviour
     public Image suciedadImage;
 
     [Header("Identificador Único")]
-    [Tooltip("IMPORTANTE: Usa 'Hambre', 'Higiene', 'Sueño' o 'Entretenimiento'")]
     public string idGuardado;
 
     [Header("Ajustes de Tiempo")]
@@ -21,35 +20,32 @@ public class NeedsManager : MonoBehaviour
 
     void Start()
     {
-        if (ScenesManager.Instance != null)
+        // Cargar valor
+        CargarEstadoInicial();
+
+        // Tiempo transcurrido
+        if (PlayerPrefs.HasKey("UltimaVez"))
         {
-            switch (idGuardado)
+            System.DateTime ultimaVez = System.DateTime.Parse(PlayerPrefs.GetString("UltimaVez"));
+            float segundosFuera = (float)(System.DateTime.Now - ultimaVez).TotalSeconds;
+
+            if (idGuardado == "Sueno") // Sueño
             {
-                case "Hambre":
-                    slider.value = ScenesManager.Instance.hunger;
-                    break;
-                case "Higiene":
-                    slider.value = ScenesManager.Instance.hygiene;
-                    break;
-                case "Entretenimiento":
-                    slider.value = ScenesManager.Instance.fun;
-                    break;
-                case "Sueno":
-                    slider.value = ScenesManager.Instance.sleep;
-                    break;
-                default:
-                    if (PlayerPrefs.HasKey(idGuardado))
-                        slider.value = PlayerPrefs.GetFloat(idGuardado);
-                    break;
+                bool estabaDormido = PlayerPrefs.GetInt("EstaDurmiendo", 0) == 1;
+
+                if (estabaDormido) slider.value += segundosFuera * 0.05f; // Subir valor
+                else slider.value -= segundosFuera * velocidadDescenso; // Restar valor
             }
-        }
-        else if (PlayerPrefs.HasKey(idGuardado))
-        {
-            slider.value = PlayerPrefs.GetFloat(idGuardado);
+            else // Resto de necesidades
+            {
+                slider.value -= segundosFuera * velocidadDescenso;
+            }
+
+            // Ajustar limite slider
+            slider.value = Mathf.Clamp(slider.value, 0f, 1f);
         }
 
-        // Logica de suciedad (Visual)
-        ActualizarSuciedadVisual();
+        ActualizarVisualesAlEntrar();
     }
 
     void Update()
@@ -78,6 +74,31 @@ public class NeedsManager : MonoBehaviour
 
         // Chequeo constante de suciedad si es la barra de higiene
         if (objetoSuciedad != null) ActualizarSuciedadVisual();
+    }
+
+    void CargarEstadoInicial()
+    {
+        if (ScenesManager.Instance != null)
+        {
+            switch (idGuardado)
+            {
+                case "Hambre": slider.value = ScenesManager.Instance.hunger; break;
+                case "Higiene": slider.value = ScenesManager.Instance.hygiene; break;
+                case "Entretenimiento": slider.value = ScenesManager.Instance.fun; break;
+                case "Sueno": slider.value = ScenesManager.Instance.sleep; break;
+            }
+        }
+    }
+
+    void ActualizarVisualesAlEntrar()
+    {
+        ActualizarSuciedadVisual();
+        float valorNormalizado = slider.value / slider.maxValue;
+        if (fillImage != null)
+        {
+            fillImage.color = gradiente.Evaluate(valorNormalizado);
+            fillImage.fillAmount = valorNormalizado;
+        }
     }
 
     void ActualizarSuciedadVisual()

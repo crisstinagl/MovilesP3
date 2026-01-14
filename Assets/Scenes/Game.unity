@@ -11998,7 +11998,7 @@ MonoBehaviour:
   objetoSuciedad: {fileID: 0}
   suciedadImage: {fileID: 0}
   idGuardado: Entretenimiento
-  velocidadDescenso: 0.0033
+  velocidadDescenso: 0.005
 --- !u!1 &1236842203
 GameObject:
   m_ObjectHideFlags: 0
