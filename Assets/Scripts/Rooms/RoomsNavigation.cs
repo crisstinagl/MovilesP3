@@ -26,6 +26,13 @@ public class RoomsNavigation : MonoBehaviour, IEndDragHandler, IBeginDragHandler
         {
             roomsPositions[i] = i * distancia;
         }
+
+        if (ScenesManager.Instance != null)
+        {
+            indexHabitacion = ScenesManager.Instance.ultimaHabitacion;
+            targetRoom = roomsPositions[indexHabitacion];
+            scrollRect.horizontalNormalizedPosition = targetRoom;
+        }
     }
 
     void Update()
@@ -70,6 +77,11 @@ public class RoomsNavigation : MonoBehaviour, IEndDragHandler, IBeginDragHandler
         // Actualizar el índice de la habitación actual
         indexHabitacion = nearestIndex;
 
+        if (ScenesManager.Instance != null)
+        {
+            ScenesManager.Instance.ultimaHabitacion = indexHabitacion;
+        }
+
         // Si se sale del dormitorio despertar
         if (nearestIndex != indexHabitacion && bedroomScript != null)
         {
@@ -84,6 +96,11 @@ public class RoomsNavigation : MonoBehaviour, IEndDragHandler, IBeginDragHandler
 
         // Actualizar el índice de la habitación actual
         indexHabitacion = index;
+
+        if (ScenesManager.Instance != null)
+        {
+            ScenesManager.Instance.ultimaHabitacion = indexHabitacion;
+        }
 
         // Si se sale del dormitorio despertar
         if (index != indexHabitacion && bedroomScript != null)

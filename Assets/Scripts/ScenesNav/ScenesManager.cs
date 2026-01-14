@@ -16,6 +16,9 @@ public class ScenesManager : MonoBehaviour
     public float fun = 1.0f;
     public float sleep = 1.0f;
 
+    [Header("Navegación")]
+    public int ultimaHabitacion = 0;
+
     [Header("Ajustes de Audio")]
     public AudioSource musicaSource;
     public AudioSource uiSource;
@@ -150,6 +153,7 @@ public class ScenesManager : MonoBehaviour
         hygiene = PlayerPrefs.GetFloat("HigieneValue", 1.0f);
         fun = PlayerPrefs.GetFloat("Entretenimiento", 1.0f);
         sleep = PlayerPrefs.GetFloat("SuenoValue", 1.0f);
+        ultimaHabitacion = PlayerPrefs.GetInt("UltimaHabitacion", 0);
     }
 
     public void SaveSettings()
@@ -180,7 +184,8 @@ public class ScenesManager : MonoBehaviour
         PlayerPrefs.SetFloat("HigieneValue", hygiene);
         PlayerPrefs.SetFloat("Entretenimiento", fun);
         PlayerPrefs.SetFloat("SuenoValue", sleep);
-        PlayerPrefs.SetString("UltimaVez", System.DateTime.Now.ToString()); 
+        PlayerPrefs.SetString("UltimaVez", System.DateTime.Now.ToString());
+        PlayerPrefs.SetInt("UltimaHabitacion", ultimaHabitacion);
 
         PlayerPrefs.Save();
     }
